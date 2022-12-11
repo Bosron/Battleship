@@ -72,7 +72,7 @@ public class Player {
     public void findBiggestShip() {
         int biggestShipTemp = 0;
         for (int i = 0; i < 20; i++) {
-            if(this.getShip(i).getShipLength() > biggestShipTemp){
+            if(this.getShip(i).getShipLength() > biggestShipTemp && !(this.getShip(i).getIsSunk())){
                 biggestShipTemp = this.getShip(i).getShipLength();
             }
         }

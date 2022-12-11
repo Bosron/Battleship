@@ -5,10 +5,6 @@ import javax.swing.ImageIcon;
 
 public class BuildMenu extends javax.swing.JFrame {
 
-    public BuildMenu() {
-        initComponents();
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -28,12 +24,14 @@ public class BuildMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void run(Player player){
-        //tova e tuk samo zashtoto player ne moje da e parametur na BuildMenu
-        this.setVisible(true);
+    public BuildMenu(Player player) {
+        initComponents();
+        this.player = player;
     }
     private int orientation = 0, metal = 5;
-    
+    private Player player = new Player();
+    private boolean buildPhase = true;
+
     private void KeyPressed(some_key_event e) {
         if (e.getChar() == 'r' || e.getChar() == 'R') {
             orientation++;
@@ -45,52 +43,55 @@ public class BuildMenu extends javax.swing.JFrame {
     }
 
     private void MouseReleased(some_mouse_event e) {
-        int length = e.getShipLength();
-        Image / ImageIcon ? shipImage = e.getShipImage();
-        int posX = getGridCell(e.getX);
-        int posY = getGridCell(e.getY);
-        Ship ship = new Ship(length, orientation, "shipImage", false, posX, posY);
-        if (placeCheck(player, ship)) {
-            buildShip(player, ship);
+        if (buildPhase) {
+            if (e.getX < 720 && e.getX > 0 && e.getY < 720 && e.getY > 0) {
+                int posX = getGridCell(e.getX);
+                int posY = getGridCell(e.getY);
+                int length = e.getShipLength();
+                ImageIcon shipImage = e.getShipImage();
+                Ship ship = new Ship(length, orientation, shipImage, false, posX, posY);
+                if (placeCheck(player, ship)) {
+                    buildShip(player, ship);
+                }
+            }
         }
     }
 
-    private boolean placeCheck(Player player, Ship ship) {//tova triabva da se obedini s rotateCheck v 1 method
-        int posX = ship.getPositionX();
-        int posY = ship.getPositionY();
-        return (player.getGrid(posX, posY) == 0);
-    }
-
-    private boolean rotateCheck(Player player, Ship ship) {
+    private boolean placeCheck(Player player, Ship ship) {
         int posX = ship.getPositionX();
         int posY = ship.getPositionY();
         int shipOrientation = ship.getShipOrientation();
         int length = ship.getShipLength();
-        boolean isGridFree = false;
+        boolean isGridFree = true;
+        
+        //0 - iztok
+        //1 - zapad
+        //2 - sever
+        //4 - yug
 
         switch (shipOrientation) {
             case 0:
                 for (int i = 0; i < length; i++) {
-                    if (player.getGrid(posX + i, posY) == 0) {
-                        isGridFree = true;
+                    if (player.getGrid(posX + i, posY) != 0) {
+                        isGridFree = false;
                     }
                 }
             case 1:
                 for (int i = 0; i < length; i++) {
-                    if (player.getGrid(posX - i, posY) == 0) {
-                        isGridFree = true;
+                    if (player.getGrid(posX + i, posY) != 0) {
+                        isGridFree = false;
                     }
                 }
             case 2:
                 for (int i = 0; i < length; i++) {
-                    if (player.getGrid(posX, posY - i) == 0) {
-                        isGridFree = true;
+                    if (player.getGrid(posX, posY + i) != 0) {
+                        isGridFree = false;
                     }
                 }
             case 3:
                 for (int i = 0; i < length; i++) {
-                    if (player.getGrid(posX, posY + i) == 0) {
-                        isGridFree = true;
+                    if (player.getGrid(posX, posY + i) != 0) {
+                        isGridFree = false;
                     }
                 }
         }
@@ -109,11 +110,11 @@ public class BuildMenu extends javax.swing.JFrame {
                 }
             case 1:
                 for (int i = 0; i < length; i++) {
-                    player.setGrid(3, posX - i, posY);
+                    player.setGrid(3, posX + i, posY);
                 }
             case 2:
                 for (int i = 0; i < length; i++) {
-                    player.setGrid(3, posX, posY - i);
+                    player.setGrid(3, posX, posY + i);
                 }
             case 3:
                 for (int i = 0; i < length; i++) {
@@ -122,14 +123,17 @@ public class BuildMenu extends javax.swing.JFrame {
         }
     }
 
-    public void buildShip(Player player, Ship ship) {
+    private void buildShip(Player player, Ship ship) {
         int nomer = 0;
-        if (metal > 0) {
-            if (new BuildMenu().placeCheck(player, ship) && new BuildMenu().rotateCheck(player, ship)) {
+        if (metal - ship.getShipLength() >= 0) {
+            if (placeCheck(player, ship)) {
                 metal -= ship.getShipLength();
                 player.setShip(ship, nomer);
                 nomer++;
-                new BuildMenu().placeShipInGrid(player, ship);
+                placeShipInGrid(player, ship);
+                if (metal <= 0) {
+                    buildPhase = false;
+                }
             }
         }
     }

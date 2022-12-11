@@ -130,8 +130,8 @@ public class MainMenu extends javax.swing.JFrame {
             p1.setName(txtP1.getText());
             p2.setName(txtP2.getText());
             this.dispose();
-            new BuildMenu().run(p1);
-            new BuildMenu().run(p2);
+            new BuildMenu(p1).setVisible(true);
+            new BuildMenu(p2).setVisible(true);
         } else {
             lblError.setText("Insert a name!");
         }

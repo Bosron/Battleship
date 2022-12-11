@@ -1,10 +1,12 @@
 package battleship;
 
+import javax.swing.ImageIcon;
+
 public class Ship {
 
     private int shipLength;
     private int shipOrientation;
-    private String shipImage;
+    private ImageIcon shipImage;
     private boolean isSunk;
     private int positionX, positionY;
 
@@ -17,11 +19,11 @@ public class Ship {
         return shipOrientation;
     }
 
-    public String getShipImage() {
+    public ImageIcon getShipImage() {
         return shipImage;
     }
 
-    public boolean isIsSunk() {
+    public boolean getIsSunk() {
         return isSunk;
     }
 
@@ -41,7 +43,7 @@ public class Ship {
         this.shipOrientation = shipOrientation;
     }
 
-    public void setShipImage(String shipImage) {
+    public void setShipImage(ImageIcon shipImage) {
         this.shipImage = shipImage;
     }
 
@@ -57,7 +59,7 @@ public class Ship {
         this.positionY = positionY;
     }
 
-    public Ship(int shipLength, int shipOrientation, String shipImage, boolean isSunk, int positionX, int positionY) {
+    public Ship(int shipLength, int shipOrientation, ImageIcon shipImage, boolean isSunk, int positionX, int positionY) {
         this.shipLength = shipLength;
         this.shipOrientation = shipOrientation;
         this.shipImage = shipImage;
@@ -67,7 +69,7 @@ public class Ship {
     }
 
     public Ship() {
-        this(0, 0, "", true, 0, 0);
+        this(0, 0, null, true, 0, 0);
     }
 
     @Override
