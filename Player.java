@@ -7,6 +7,7 @@ public class Player {
     private String name;
     private int biggestShip;
     private Ship[] ships = new Ship[5];
+    private int shipStyle;
 
     public void setName(String name) {
         this.name = name;
@@ -28,6 +29,10 @@ public class Player {
         this.biggestShip = biggestShip;
     }
 
+    public void setShipStyle(int shipStyle) {
+        this.shipStyle = shipStyle;
+    }
+
     public String getName() {
         return name;
     }
@@ -46,6 +51,10 @@ public class Player {
 
     public int getBiggestShip() {
         return biggestShip;
+    }
+
+    public int getShipStyle() {
+        return shipStyle;
     }
 
     public Player(String name) {
@@ -81,6 +90,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" + "name=" + name + ", biggestShip=" + biggestShip + '}';
+        return "Player{" + "name=" + name + ", biggestShip=" + biggestShip + ", shipStyle=" + shipStyle + '}';
     }
 }
