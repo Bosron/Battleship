@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.WindowConstants;
 
-//@authors: borisks && damyanlh
+//@authors: borisks & damyanlh
 public class BuildMenu extends javax.swing.JFrame implements MouseListener {
 
     //for grabing and rotation
