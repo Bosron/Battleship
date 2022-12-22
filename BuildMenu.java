@@ -19,7 +19,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.WindowConstants;
 
 //@authors: borisks & damyanlh
-public class BuildMenu extends javax.swing.JFrame implements MouseListener {
+public class BuildMenu extends javax.swing.JFrame {
 
     //for grabing and rotation
     private int width, height;
@@ -92,7 +92,7 @@ public class BuildMenu extends javax.swing.JFrame implements MouseListener {
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="nextPhase">
-        nextPhase.setBounds(1000, 100, 100, 50);
+        nextPhase.setBounds(1000, 10, 100, 50);
         nextPhase.setOpaque(true);
         nextPhase.setFont(new Font("Comic Sans", Font.BOLD, 20));
         nextPhase.addMouseListener(new MouseAdapter() {
@@ -190,13 +190,14 @@ public class BuildMenu extends javax.swing.JFrame implements MouseListener {
 
     private void shipStyleSetter() {
         if (player.getShipStyle() == 1) {
-            //triabva da se zamenyat s renesansovite korabi
+            //zamenya s renesansovi korabi
             oneTile = new ImageIcon("src/images/1-tile-ren.png");
             twoTile = new ImageIcon("src/images/2-tile-ren.png");
             threeTile = new ImageIcon("src/images/3-tile-ren.png");
             fourTile = new ImageIcon("src/images/4-tile-ren.png");
             fiveTile = new ImageIcon("src/images/5-tile-ren.png");
         } else {
+            //zamenya s ww2 korabi
             oneTile = new ImageIcon("src/images/1-tile-ww2.png");
             twoTile = new ImageIcon("src/images/2-tile-ww2.png");
             threeTile = new ImageIcon("src/images/3-tile-ww2.png");
@@ -372,32 +373,6 @@ public class BuildMenu extends javax.swing.JFrame implements MouseListener {
             }
             orientation = 0;
         }
-    }
-
-    //<editor-fold defaultstate="collapsed" desc="Extra MouseAdapter(cannot deletes)">
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     //</editor-fold>
