@@ -50,6 +50,7 @@ public class Player {
     }
 
     public int getBiggestShip() {
+        this.findBiggestShip();
         return biggestShip;
     }
 
