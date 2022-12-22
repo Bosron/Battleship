@@ -1,0 +1,212 @@
+package battleship;
+
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.WindowConstants;
+
+//@authors: borisks & damyanlh
+public class StrikeMenu extends javax.swing.JFrame {
+
+    //for scene
+    private JLayeredPane layeredPane = new JLayeredPane();
+    private JLabel background = new JLabel();
+    private ImageIcon redX;
+    private ImageIcon whiteX;
+    private ImageIcon grayButton;
+    private ImageIcon colorButton;
+
+    //label array
+    private DynamicLabelArray xLabels = new DynamicLabelArray(0);
+
+    //for striking
+    private Player player = new Player();
+    private int strikes = player.getBiggestShip();
+    private boolean strikePhase = true;
+
+    //for next phase
+    private JLabel nextTurn = new JLabel(grayButton);
+    private JLabel strikeCounter = new JLabel(strikes + "");
+    private boolean loseCon = false;
+
+    public StrikeMenu(Player player, Player opponent) {//triabva da se strelia oponenta
+        this.player = player;
+        this.setBounds(100, 100, 900, 720);
+
+        //inicializirane
+
+        // <editor-fold defaultstate="collapsed" desc="nextTurn">
+        nextTurn.setBounds(760, 100, 100, 50);
+        nextTurn.setOpaque(true);
+        nextTurn.setFont(new Font("Comic Sans", Font.BOLD, 20));
+        nextTurn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (!strikePhase) {
+                    switchScene();
+                }
+            }
+        });
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="strikeCounter">
+        strikeCounter.setBounds(1150, 10, 50, 50);
+        strikeCounter.setOpaque(false);
+        strikeCounter.setFont(new Font("Comic Sans", Font.BOLD, 40));
+        // </editor-fold>  
+
+        // <editor-fold defaultstate="collapsed" desc="background">
+        ImageIcon backgroundIcon = new ImageIcon("src/images/StrikeArea.png");
+        layeredPane.setBounds(0, 0, 900, 720);
+        background.setIcon(backgroundIcon);
+        background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
+        // </editor-fold>
+
+        this.setLayeredPane(layeredPane);
+        this.revalidate();
+
+        layeredPane.add(strikeCounter, Integer.valueOf(5));
+        layeredPane.add(background, Integer.valueOf(0));
+        for (int i = 0; i < xLabels.length(); i++) {
+            layeredPane.add(xLabels.elementGetter(i), Integer.valueOf(1));
+        }
+        this.addKeyListener(new MKeyListener());
+        this.addMouseListener(new MouseAdapterForCrossSpawning());
+        this.setBounds(100, 100, 900, 720);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    private boolean hasHit(int x,int y){
+        if(player.getGrid(x, y) == 1 || player.getGrid(x, y) == 2){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private ImageIcon isShip(int x, int y){
+        if(player.getGrid(x, y) == 3){
+            return redX;
+        } else if (player.getGrid(x, y) == 0) {
+            return whiteX;
+        }
+        return new ImageIcon("src/images/bulba.png");
+    }
+
+    private void switchScene() {
+        if (MainMenu.getCurrentPhase() == 2) {
+            MainMenu.setP1(player);
+            if(loseCon){
+                MainMenu.setCurrentPhase(4);
+            } else {
+                MainMenu.setCurrentPhase(3);
+            }
+            this.dispose();
+            new MainMenu().run();
+        } else if (MainMenu.getCurrentPhase() == 3) {
+            MainMenu.setP2(player);
+            if(loseCon){
+                MainMenu.setCurrentPhase(4);
+            } else {
+                MainMenu.setCurrentPhase(2);
+            }
+            this.dispose();
+            new MainMenu().run();
+        }
+    }
+
+    class DynamicLabelArray {
+
+        private JLabel[] labels = new JLabel[0];
+
+        public DynamicLabelArray(int length) {
+            labels = new JLabel[length];
+            for (int i = 0; i < labels.length; i++) {
+                labels[i] = new JLabel();
+                labels[i].setBounds(0, 0, 1, 1);
+            }
+        }
+
+        public void setlabels(JLabel[] arr) {
+            for (int i = 0; i < labels.length; i++) {
+                this.labels[i] = arr[i];
+            }
+        }
+
+        public void addLabel() {
+            JLabel[] arr = new JLabel[labels.length + 1];
+            for (int i = 0; i < labels.length; i++) {
+                arr[i] = labels[i];
+            }
+            labels = new JLabel[arr.length];
+            setlabels(arr);
+        }
+
+        public void removeLabel(int elementNumber) {
+            if (elementNumber >= 0 && elementNumber < labels.length) {
+                JLabel[] arr = new JLabel[labels.length - 1];
+                for (int i = 0, y = 0; i < labels.length; i++, y++) {
+                    if (i == elementNumber) {
+                        labels[i].setVisible(false);
+                        if (elementNumber == labels.length - 1) {
+                        } else {
+                            y--;
+                        }
+                    } else {
+                        arr[y] = labels[i];
+                    }
+                }
+                labels = new JLabel[arr.length];
+                setlabels(arr);
+            } else {
+                System.out.println("Error: not able to remove element out of array length");
+            }
+        }
+
+        public int length() {
+            return labels.length;
+        }
+
+        public void spawnX(int numberInArray, int x, int y) {
+            labels[numberInArray] = new JLabel();
+            labels[numberInArray].setIcon(isShip(x,y));
+            labels[numberInArray].setBounds(x + 5, y + 5, 50, 50);
+            labels[numberInArray].setOpaque(false);
+            layeredPane.add(labels[numberInArray], Integer.valueOf(2));
+            layeredPane.revalidate();
+        }
+
+        public JLabel elementGetter(int numberInArray) {
+            return labels[numberInArray];
+        }
+    }
+
+    class MKeyListener extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent event) {
+            char ch = event.getKeyChar();  
+            if (ch == 'z' || ch == 'Z') {
+                
+            }
+        }
+    }
+
+    class MouseAdapterForCrossSpawning extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            int posX = e.getX()/60;
+            int posY = e.getY()/60;
+            if(hasHit(posX, posY)){
+                xLabels.addLabel();
+                xLabels.spawnX(xLabels.length() - 1, posX, posY);
+                strikeShip();//promenia grida na playera
+                sinkPlayerShips();//proverka dali celia korab e ucelen i go potopyava ako e
+            }
+        }
+    }
+}
