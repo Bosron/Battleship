@@ -1,201 +1,485 @@
 package battleship;
 
-import javax.swing.JOptionPane;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.WindowConstants;
 
-public class MainMenu extends javax.swing.JFrame {
+//@authors: borisks & damyanlh
+public class BuildMenu extends javax.swing.JFrame implements MouseListener {
 
-    private static Player p1 = new Player();
-    private static Player p2 = new Player();
-    private int shipStyle = 0;
-    private static int currentPhase = 0;
+    //for grabing and rotation
+    private int width, height;
+    private int orientation;
+    private Boolean canRotate = false;
+    private BufferedImage auxiliaryImage;
+    private Image image;
+    private ImageIcon labelGhostIcon = new ImageIcon();
 
-    public static void setCurrentPhase(int currentPhase) {
-        MainMenu.currentPhase = currentPhase;
-    }
+    //for scene
+    private JLayeredPane layeredPane = new JLayeredPane();
+    private JLabel background = new JLabel();
+    private ImageIcon oneTile;
+    private ImageIcon twoTile;
+    private ImageIcon threeTile;
+    private ImageIcon fourTile;
+    private ImageIcon fiveTile;
+    private ImageIcon grayButton;
+    private ImageIcon colorButton;
 
-    public static int getCurrentPhase() {
-        return currentPhase;
-    }
+    //label arrays
+    private DynamicLabelArray shipLabels = new DynamicLabelArray(0);
+    private DynamicLabelArray staticShipLabels = new DynamicLabelArray(5);
 
-    public static void setP1(Player p1) {
-        MainMenu.p1 = p1;
-    }
+    //for adding ships
+    private int metal = 20;
+    private Player player = new Player();
+    private boolean buildPhase = true;
+    private int nomer = 0;
+    private int length;
 
-    public static void setP2(Player p2) {
-        MainMenu.p2 = p2;
-    }
+    //for next phase
+    private JLabel nextPhase = new JLabel(grayButton);
+    private JLabel metalCounter = new JLabel(metal + "");
 
-    public MainMenu() {
-        initComponents();
-    }
+    public BuildMenu(Player player) {
+        this.player = player;
+        this.setBounds(100, 100, 1280, 720);
+        //inicializirane na vsichko statichno
+        this.shipStyleSetter();
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+        // <editor-fold defaultstate="collapsed" desc="1-tile ship">
+        staticShipLabels.elementGetter(0).setIcon(oneTile);
+        staticShipLabels.elementGetter(0).setBounds(800, 50, 48, 40);//tryabva da se naglasi spryamo pristanishteto
+        staticShipLabels.elementGetter(0).addMouseListener(new MouseAdapterForShipSpawning());
+        // </editor-fold>
 
-        jPanel1 = new javax.swing.JPanel();
-        txtP2 = new javax.swing.JTextField();
-        txtP1 = new javax.swing.JTextField();
-        lblP1 = new javax.swing.JLabel();
-        lblP2 = new javax.swing.JLabel();
-        btnRules = new javax.swing.JButton();
-        btnPlay = new javax.swing.JButton();
-        lblNoName = new javax.swing.JLabel();
-        boxStyle = new javax.swing.JComboBox<>();
-        lblStyle = new javax.swing.JLabel();
-        lblNoStyle = new javax.swing.JLabel();
+        // <editor-fold defaultstate="collapsed" desc="2-tile ship">
+        staticShipLabels.elementGetter(1).setIcon(twoTile);
+        staticShipLabels.elementGetter(1).setBounds(800, 200, 80, 48);//tryabva da se naglasi spryamo pristanishteto
+        staticShipLabels.elementGetter(1).addMouseListener(new MouseAdapterForShipSpawning());
+        // </editor-fold>
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        // <editor-fold defaultstate="collapsed" desc="3-tile ship">
+        staticShipLabels.elementGetter(2).setIcon(threeTile);
+        staticShipLabels.elementGetter(2).setBounds(800, 400, 160, 48);//tryabva da se naglasi spryamo pristanishteto
+        staticShipLabels.elementGetter(2).addMouseListener(new MouseAdapterForShipSpawning());
+        // </editor-fold>
 
-        lblP1.setText("Player 1's name");
+        // <editor-fold defaultstate="collapsed" desc="4-tile ship">
+        staticShipLabels.elementGetter(3).setIcon(fourTile);
+        staticShipLabels.elementGetter(3).setBounds(900, 300, 200, 48);//tryabva da se naglasi spryamo pristanishteto
+        staticShipLabels.elementGetter(3).addMouseListener(new MouseAdapterForShipSpawning());
+        // </editor-fold>
 
-        lblP2.setText("Player 2's name");
+        // <editor-fold defaultstate="collapsed" desc="5-tile ship">
+        staticShipLabels.elementGetter(4).setIcon(fiveTile);
+        staticShipLabels.elementGetter(4).setBounds(900, 100, 240, 48);//tryabva da se naglasi spryamo pristanishteto
+        staticShipLabels.elementGetter(4).addMouseListener(new MouseAdapterForShipSpawning());
+        // </editor-fold>
 
-        btnRules.setText("Show playing rules");
-        btnRules.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRulesActionPerformed(evt);
+        // <editor-fold defaultstate="collapsed" desc="nextPhase">
+        nextPhase.setBounds(1000, 100, 100, 50);
+        nextPhase.setOpaque(true);
+        nextPhase.setFont(new Font("Comic Sans", Font.BOLD, 20));
+        nextPhase.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(!buildPhase){
+                    switchScene();
+                }
             }
         });
+        // </editor-fold>
 
-        btnPlay.setText("START");
-        btnPlay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPlayActionPerformed(evt);
-            }
-        });
+        // <editor-fold defaultstate="collapsed" desc="metalCounter">
+        metalCounter.setBounds(1150, 10, 50, 50);
+        metalCounter.setOpaque(false);
+        metalCounter.setFont(new Font("Comic Sans", Font.BOLD, 40));
+        // </editor-fold>
+        
+        layeredPane.setBounds(0, 0, 1280, 720);
 
-        boxStyle.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Choose ship style", "Renaissance ships", "WW2 ships"}));
-        boxStyle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxStyleActionPerformed(evt);
-            }
-        });
+        // <editor-fold defaultstate="collapsed" desc="background">
+        ImageIcon backgroundIcon = new ImageIcon("src/images/BuildArea.png");
+        //  Image backgroundImage = backgroundIcon.getImage();
+        // Image modifiedBackgroundImage = backgroundImage.getScaledInstance(this.getWidth(), this.getHeight(), java.awt.Image.SCALE_SMOOTH);
+        // backgroundIcon = new ImageIcon(modifiedBackgroundImage);
+        background.setIcon(backgroundIcon);
+        background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
+        // </editor-fold>
 
-        lblStyle.setText("Select the style of your ships.");
+        this.setLayeredPane(layeredPane);
+        this.revalidate();
+        this.addKeyListener(new MKeyListener());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(btnRules, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(200, 200, 200)
-                                                .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addGap(32, 32, 32)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(lblP1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(txtP1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(lblP2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18, 18, 18)
-                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                                        .addComponent(txtP2, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                                                                        .addComponent(lblNoName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(boxStyle, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblStyle, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                                        .addComponent(lblNoStyle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(20, 20, 20))
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtP2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblP2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(20, 20, 20)
-                                .addComponent(lblNoName, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtP1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblP1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-                                .addComponent(btnRules, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(117, 117, 117)
-                                .addComponent(lblStyle)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(boxStyle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblNoStyle, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        layeredPane.add(metalCounter, Integer.valueOf(5));
+        layeredPane.add(nextPhase, Integer.valueOf(5));
+        layeredPane.add(background, Integer.valueOf(0));
+        for (int i = 0; i < staticShipLabels.length(); i++) {
+            layeredPane.add(staticShipLabels.elementGetter(i), Integer.valueOf(1));
+        }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        pack();
-    }// </editor-fold>
-
-    private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {
-        run();
+        this.setBounds(100, 100, 1280, 720);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    private void btnRulesActionPerformed(java.awt.event.ActionEvent evt) {
-        JOptionPane.showMessageDialog(null, "neshto si pravila", "Playing rules:", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    private void boxStyleActionPerformed(java.awt.event.ActionEvent evt) {
-        shipStyle = boxStyle.getSelectedIndex();
-    }
-
-    public static void main(String args[]) {
-        new MainMenu().setVisible(true);
-    }
-
-    public void run() {
-        if (currentPhase == 0) {
-            if (!(txtP1.getText().equals("")) && !(txtP2.getText().equals("")) && shipStyle != 0) {
-                p1.setName(txtP1.getText());
-                p2.setName(txtP2.getText());
-                p1.setShipStyle(shipStyle);
-                p2.setShipStyle(shipStyle);
-                this.dispose();
-                new BuildMenu(p1).setVisible(true);
-            } else if (shipStyle != 0) {
-                lblNoName.setText("Insert a name!");
-            } else if (shipStyle == 0) {
-                lblNoStyle.setText("Choose a ship style!");
-            }
-        } else if (currentPhase == 1) {
-            new BuildMenu(p2).setVisible(true);
-        } else if (currentPhase == 2) {
-            //new strikeMenu(p1,p2).setVisible(true);
+    private void switchScene() {
+        if (MainMenu.getCurrentPhase() == 0) {
+            MainMenu.setP1(player);
+            MainMenu.setCurrentPhase(1);
+            this.dispose();
+            new MainMenu().run();
+        } else if (MainMenu.getCurrentPhase() == 1) {
+            MainMenu.setP2(player);
+            MainMenu.setCurrentPhase(2);
+            this.dispose();
+            new MainMenu().run();
         }
     }
 
-    // Variables declaration - do not modify
-    private javax.swing.JComboBox<String> boxStyle;
-    private javax.swing.JButton btnPlay;
-    private javax.swing.JButton btnRules;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblNoName;
-    private javax.swing.JLabel lblNoStyle;
-    private javax.swing.JLabel lblP1;
-    private javax.swing.JLabel lblP2;
-    private javax.swing.JLabel lblStyle;
-    private javax.swing.JTextField txtP1;
-    private javax.swing.JTextField txtP2;
-    // End of variables declaration
+    private void setCursorImage(Image image) {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Cursor c = toolkit.createCustomCursor(image, new Point(15, 15), "img");
+        this.setCursor(c);
+    }
+
+    private BufferedImage rotate(BufferedImage bimg, Double angle) {
+        //varti potencialnia label koito shte slojim
+        int temp = width;
+        width = height;
+        height = temp;
+        //imagea koito slagame na labela
+        double sin = Math.abs(Math.sin(Math.toRadians(angle))),
+                cos = Math.abs(Math.cos(Math.toRadians(angle)));
+        int w = bimg.getWidth();
+        int h = bimg.getHeight();
+        int neww = (int) Math.floor(w * cos + h * sin),
+                newh = (int) Math.floor(h * cos + w * sin);
+        BufferedImage rotated = new BufferedImage(neww, newh, bimg.getType());
+        Graphics2D graphic = rotated.createGraphics();
+        graphic.translate((neww - w) / 2, (newh - h) / 2);
+        graphic.rotate(Math.toRadians(angle), w / 2, h / 2);
+        graphic.drawRenderedImage(bimg, null);
+        graphic.dispose();
+        return rotated;
+    }
+
+    private BufferedImage ImageToBufferedImage(Image image) {
+        BufferedImage newImage = new BufferedImage(
+                image.getWidth(null), image.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = newImage.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return newImage;
+    }
+
+    private void shipStyleSetter() {
+        if (player.getShipStyle() == 1) {
+            //triabva da se zamenyat s renesansovite korabi
+            oneTile = new ImageIcon("src/images/1-tile-ren.png");
+            twoTile = new ImageIcon("src/images/2-tile-ren.png");
+            threeTile = new ImageIcon("src/images/3-tile-ren.png");
+            fourTile = new ImageIcon("src/images/4-tile-ren.png");
+            fiveTile = new ImageIcon("src/images/5-tile-ren.png");
+        } else {
+            oneTile = new ImageIcon("src/images/1-tile-ww2.png");
+            twoTile = new ImageIcon("src/images/2-tile-ww2.png");
+            threeTile = new ImageIcon("src/images/3-tile-ww2.png");
+            fourTile = new ImageIcon("src/images/4-tile-ww2.png");
+            fiveTile = new ImageIcon("src/images/5-tile-ww2.png");
+        }
+    }
+
+    private boolean placeCheck(Player player, Ship ship) {
+        int posX = ship.getPositionX();
+        int posY = ship.getPositionY();
+        int shipLength = ship.getShipLength();
+        int shipOrientation = ship.getShipOrientation();
+        boolean isGridFree = true;
+        //0 - iztok
+        //1 - yug
+        //2 - zapad
+        //3 - sever
+        if (shipOrientation % 2 == 0) {
+            if (posX + shipLength - 1 < 12 && posX >= 0 && posY >= 0 && posY < 12) {
+                for (int i = 0; i < shipLength; i++) {
+                    if (player.getGrid(posX + i, posY) != 0) {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+        } else {
+            if (posY + shipLength - 1 < 12 && posY >= 0 && posX >= 0 && posX < 12) {
+                for (int i = 0; i < shipLength; i++) {
+                    if (player.getGrid(posX, posY + i) != 0) {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+        }
+        return isGridFree;
+    }
+
+    private void buildShip(Player player, Ship ship) {
+        metal -= ship.getShipLength();
+        player.setShip(ship, nomer);
+        nomer++;
+        player.placeShipInGrid(ship);
+        if (metal == 0) {
+            buildPhase = false;
+            nextPhase.setIcon(colorButton);
+        }
+    }
+
+    private int determineX(Ship ship) {
+        int posX = ship.getPositionX() * 60;
+        int shipOrientation = ship.getShipOrientation();
+        int shipLength = ship.getShipLength();
+        if (shipOrientation % 2 == 0) {
+            if (shipLength == 1) {
+                posX += 6;
+            } else if (shipLength == 2 || shipLength == 4) {
+                posX += 20;
+            } else if (shipLength == 3) {
+                posX += 10;
+            } else if (shipLength == 5) {
+                posX += 30;
+            }
+        } else {
+            if (shipLength == 1) {
+                posX += 10;
+            } else if (shipLength > 1) {
+                posX += 6;
+            }
+        }
+        return posX;
+    }
+
+    private int determineY(Ship ship) {
+        int posY = ship.getPositionY() * 60;
+        int shipOrientation = ship.getShipOrientation();
+        int shipLength = ship.getShipLength();
+        if (shipOrientation % 2 == 1) {
+            if (shipLength == 1) {
+                posY += 6;
+            } else if (shipLength == 2 || shipLength == 4) {
+                posY += 20;
+            } else if (shipLength == 3) {
+                posY += 10;
+            } else if (shipLength == 5) {
+                posY += 30;
+            }
+        } else {
+            if (shipLength == 1) {
+                posY += 10;
+            } else if (shipLength > 1) {
+                posY += 6;
+            }
+        }
+        return posY;
+    }
+
+    class MKeyListener extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent event) {
+
+            char ch = event.getKeyChar();
+
+            if ((ch == 'r' || ch == 'R') && canRotate) {
+                auxiliaryImage = rotate(ImageToBufferedImage(image), 90.0);
+                image = (java.awt.Image) auxiliaryImage;
+                setCursorImage(image);
+                labelGhostIcon = new ImageIcon(image);
+                if (orientation < 3) {
+                    orientation++;
+                } else {
+                    orientation = 0;
+                }
+            }
+            if (ch == 'z' || ch == 'Z') {
+                if (nomer > 0) {
+                    shipLabels.removeLabel(shipLabels.length() - 1);
+                    layeredPane.revalidate();
+                    player.clearShipInGrid(player.getShip(nomer - 1));
+                    metal += player.getShip(nomer - 1).getShipLength();
+                    nomer--;
+                    buildPhase = true;
+                    nextPhase.setIcon(grayButton);
+                }
+                metalCounter.setText(metal + "");
+            }
+        }
+    }
+
+    class MouseAdapterForShipSpawning extends MouseAdapter {
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            for (int i = 0; i < staticShipLabels.length(); i++) {
+                if (e.getComponent().getX() == staticShipLabels.elementGetter(i).getX()
+                        && e.getComponent().getY() == staticShipLabels.elementGetter(i).getY()) {
+                    labelGhostIcon = (ImageIcon) staticShipLabels.elementGetter(i).getIcon();
+                    width = staticShipLabels.elementGetter(i).getWidth();
+                    height = staticShipLabels.elementGetter(i).getHeight();
+                    length = i + 1;
+                }
+            }
+
+            image = labelGhostIcon.getImage();
+            setCursorImage(image);
+            canRotate = true;
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            setCursor(Cursor.getDefaultCursor());
+            canRotate = false;
+            if (buildPhase) {
+                if (e.getX() + e.getComponent().getX() < 720 && e.getX() + e.getComponent().getX() > 0
+                        && e.getY() + e.getComponent().getY() < 720 && e.getY() + e.getComponent().getY() > 0) {
+                    int posX = (e.getX() + e.getComponent().getX()) / 60;
+                    int posY = (e.getY() + e.getComponent().getY()) / 60;
+                    ImageIcon shipImage = labelGhostIcon;
+                    Ship ship = new Ship(length, orientation, shipImage, false, posX, posY);
+                    if (placeCheck(player, ship) && (metal - length) >= 0) {
+                        shipLabels.addLabel();
+                        shipLabels.spawnShip(shipLabels.length() - 1, determineX(ship), determineY(ship));
+                        layeredPane.revalidate();
+                        buildShip(player, ship);
+                        metalCounter.setText(metal + "");
+                    }
+                }
+            }
+            orientation = 0;
+        }
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Extra MouseAdapter(cannot deletes)">
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    //</editor-fold>
+    class DynamicLabelArray {
+
+        private JLabel[] shipLabels = new JLabel[0];
+
+        public DynamicLabelArray(int length) {
+            shipLabels = new JLabel[length];
+            for (int i = 0; i < shipLabels.length; i++) {
+                shipLabels[i] = new JLabel();
+                shipLabels[i].setBounds(0, 0, 1, 1);
+            }
+        }
+
+        public void setshipLabels(JLabel[] arr) {
+            for (int i = 0; i < shipLabels.length; i++) {
+                this.shipLabels[i] = arr[i];
+            }
+        }
+
+        public void addLabel() {
+            JLabel[] arr = new JLabel[shipLabels.length + 1];
+            for (int i = 0; i < shipLabels.length; i++) {
+                arr[i] = shipLabels[i];
+
+            }
+            shipLabels = new JLabel[arr.length];
+            setshipLabels(arr);
+        }
+
+        public void removeLabel(int elementNumber) {
+
+            if (elementNumber >= 0 && elementNumber < shipLabels.length) {
+                JLabel[] arr = new JLabel[shipLabels.length - 1];
+                for (int i = 0, y = 0; i < shipLabels.length; i++, y++) {
+
+                    if (i == elementNumber) {
+                        shipLabels[i].setVisible(false);
+
+                        if (elementNumber == shipLabels.length - 1) {
+
+                        } else {
+                            y--;
+                        }
+                    } else {
+                        arr[y] = shipLabels[i];
+                    }
+
+                }
+                shipLabels = new JLabel[arr.length];
+                setshipLabels(arr);
+
+            } else {
+                System.out.println("Error: not able to remove element out of array length");
+            }
+        }
+
+        public int length() {
+            return shipLabels.length;
+        }
+
+        public void spawnShip(int numberInArray, int x, int y) {
+            shipLabels[numberInArray] = new JLabel();
+            shipLabels[numberInArray].setIcon((Icon) labelGhostIcon);
+            shipLabels[numberInArray].setBounds(x, y, width, height);
+            shipLabels[numberInArray].setOpaque(false);
+            layeredPane.add(shipLabels[numberInArray], Integer.valueOf(2));
+            layeredPane.revalidate();
+        }
+
+        public void boundsSetter(int numberInArray, int x, int y, int width, int height) {
+            shipLabels[numberInArray].setBounds(x, y, width, height);
+        }
+
+        public void iconSetter(int numberInArray, Icon icon) {
+            shipLabels[numberInArray].setIcon(icon);
+        }
+
+        public JLabel elementGetter(int numberInArray) {
+            return shipLabels[numberInArray];
+        }
+
+    }
 }
