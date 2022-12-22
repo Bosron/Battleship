@@ -181,7 +181,11 @@ public class MainMenu extends javax.swing.JFrame {
         } else if (currentPhase == 1) {
             new BuildMenu(p2).setVisible(true);
         } else if (currentPhase == 2) {
-            //new strikeMenu(p1,p2).setVisible(true);
+            new StrikeMenu(p1,p2).setVisible(true);
+        } else if (currentPhase == 3) {
+            new StrikeMenu(p2,p1).setVisible(true);
+        } else if (currentPhase == 4) {
+            //new EndMenu().setVisible(true);
         }
     }
 
