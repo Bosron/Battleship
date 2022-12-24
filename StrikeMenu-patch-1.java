@@ -41,7 +41,7 @@ public class StrikeMenu extends javax.swing.JFrame {
         strikes = player.getBiggestShip();
         strikeCounter.setText(strikes + "");
         //markPastAttempts();//slaga hiksove kudeto igrachut veche e streylal perdishnite hodove
-        this.setBounds(100, 10, 900, 720);
+        this.setBounds(100, 10, 900, 757);
 
         //inicializirane
         // <editor-fold defaultstate="collapsed" desc="nextTurn">
