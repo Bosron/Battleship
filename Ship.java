@@ -69,7 +69,7 @@ public class Ship {
     }
 
     public Ship() {
-        this(0, 0, null, true, 0, 0);
+        this(0, 0, null, false, 0, 0);
     }
 
     @Override
