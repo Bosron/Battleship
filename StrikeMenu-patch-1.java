@@ -134,7 +134,7 @@ public class StrikeMenu extends javax.swing.JFrame {
 
     private void switchScene() {
         if (MainMenu.getCurrentPhase() == 2) {
-            MainMenu.setP1(opponent);
+            MainMenu.setP2(opponent);
             if (loseCon) {
                 MainMenu.setCurrentPhase(4);
             } else {
@@ -143,7 +143,7 @@ public class StrikeMenu extends javax.swing.JFrame {
             this.dispose();
             new MainMenu().run();
         } else if (MainMenu.getCurrentPhase() == 3) {
-            MainMenu.setP2(opponent);
+            MainMenu.setP1(opponent);
             if (loseCon) {
                 MainMenu.setCurrentPhase(4);
             } else {
