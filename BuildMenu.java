@@ -57,7 +57,7 @@ public class BuildMenu extends javax.swing.JFrame {
 
     public BuildMenu(Player player) {
         this.player = player;
-        this.setBounds(100, 100, 1280, 720);
+        this.setBounds(100, 10, 1294, 757);
         //inicializirane na vsichko statichno
         this.shipStyleSetter();
 
@@ -132,8 +132,6 @@ public class BuildMenu extends javax.swing.JFrame {
         for (int i = 0; i < staticShipLabels.length(); i++) {
             layeredPane.add(staticShipLabels.elementGetter(i), Integer.valueOf(1));
         }
-
-        this.setBounds(100, 100, 1280, 720);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
