@@ -185,7 +185,11 @@ public class MainMenu extends javax.swing.JFrame {
         } else if (currentPhase == 3) {
             new StrikeMenu(p2,p1).setVisible(true);
         } else if (currentPhase == 4) {
-            //new EndMenu().setVisible(true);
+            //new EndMenu(p1,p2).setVisible(true);//p1-winner, p2-loser
+            System.out.println("p1-winner");
+        } else if (currentPhase == 5) {
+            //new EndMenu(p2,p1).setVisible(true);//p2-winner, p1-loser
+            System.out.println("p2-winner");
         }
     }
 
