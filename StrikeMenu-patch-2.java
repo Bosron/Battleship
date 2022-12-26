@@ -16,10 +16,10 @@ public class StrikeMenu extends javax.swing.JFrame {
     //for scene
     private JLayeredPane layeredPane = new JLayeredPane();
     private JLabel background = new JLabel();
-    private ImageIcon redX;
-    private ImageIcon whiteX;
-    private ImageIcon grayButton;
-    private ImageIcon colorButton;
+    private ImageIcon redX = new ImageIcon("src/images/redX.png");
+    private ImageIcon whiteX = new ImageIcon("src/images/whiteX.png");
+    private ImageIcon grayButton = new ImageIcon("src/images/grayButton.png");
+    private ImageIcon colorButton = new ImageIcon("src/images/colorButton.png");
 
     //label array
     private DynamicLabelArray xLabels = new DynamicLabelArray(0);
@@ -46,10 +46,8 @@ public class StrikeMenu extends javax.swing.JFrame {
         //inicializirane
 
         // <editor-fold defaultstate="collapsed" desc="nextTurn">
-        nextTurn.setBounds(800, 600, 100, 50);
+        nextTurn.setBounds(750, 600, 100, 50);
         nextTurn.setOpaque(false);
-        nextTurn.setFont(new Font("Comic Sans", Font.BOLD, 10));
-        nextTurn.setText("neshto");
         nextTurn.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -127,11 +125,9 @@ public class StrikeMenu extends javax.swing.JFrame {
 
     private ImageIcon isShip(int x, int y) {
         if (opponent.getGrid(x, y) == 3 || opponent.getGrid(x, y) == 2) {
-            //return redX;
-            return new ImageIcon("src/images/1-tile-ww2.png");
+            return redX;
         } else if (opponent.getGrid(x, y) == 0 || opponent.getGrid(x, y) == 1) {
-            //return whiteX;
-            return new ImageIcon("src/images/5-tile-ww2.png");
+            return whiteX;
         }
         return new ImageIcon("src/images/bulba.png");
     }
@@ -149,7 +145,7 @@ public class StrikeMenu extends javax.swing.JFrame {
         } else if (MainMenu.getCurrentPhase() == 3) {
             MainMenu.setP1(opponent);
             if (loseCon) {
-                MainMenu.setCurrentPhase(4);
+                MainMenu.setCurrentPhase(5);
             } else {
                 MainMenu.setCurrentPhase(2);
             }
@@ -161,7 +157,6 @@ public class StrikeMenu extends javax.swing.JFrame {
     private void checkForLoseCon(){
         loseCon = true;
         for (int i = 0; i < 20; i++) {
-            System.out.println("for ship " + i + " isSunk = " + opponent.getShip(i).getIsSunk());
             if (!opponent.getShip(i).getIsSunk()) {
                 loseCon = false;
                 i = 20;
@@ -175,7 +170,6 @@ public class StrikeMenu extends javax.swing.JFrame {
                 if(opponent.getGrid(i, j) == 1 || opponent.getGrid(i, j) == 2){
                     xLabels.addLabel();
                     xLabels.spawnX(xLabels.length() - 1, i, j);
-                    System.out.println("spawn label at " + i + ";" + j);
                 }
             }
         }
