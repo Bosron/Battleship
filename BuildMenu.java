@@ -10,7 +10,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,9 +18,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.WindowConstants;
 
 //@authors: borisks & damyanlh
+
 public class BuildMenu extends javax.swing.JFrame {
 
-    //for grabing and rotation
+    //grabing and rotation
     private int width, height;
     private int orientation;
     private Boolean canRotate = false;
@@ -29,7 +29,7 @@ public class BuildMenu extends javax.swing.JFrame {
     private Image image;
     private ImageIcon labelGhostIcon = new ImageIcon();
 
-    //for scene
+    //scene
     private JLayeredPane layeredPane = new JLayeredPane();
     private JLabel background = new JLabel();
     private ImageIcon oneTile;
@@ -37,28 +37,30 @@ public class BuildMenu extends javax.swing.JFrame {
     private ImageIcon threeTile;
     private ImageIcon fourTile;
     private ImageIcon fiveTile;
-    private ImageIcon grayButton;
-    private ImageIcon colorButton;
+    private ImageIcon grayButton = new ImageIcon("src/images/grayButton.png");
+    private ImageIcon colorButton = new ImageIcon("src/images/colorButton.png");
 
     //label arrays
     private DynamicLabelArray shipLabels = new DynamicLabelArray(0);
     private DynamicLabelArray staticShipLabels = new DynamicLabelArray(5);
 
-    //for adding ships
+    //adding ships
     private int metal = 20;
     private Player player = new Player();
     private boolean buildPhase = true;
     private int nomer = 0;
     private int length;
 
-    //for next phase
-    private JLabel nextPhase = new JLabel(grayButton);
+    //next phase
+    private JLabel nextPhase = new JLabel();
     private JLabel metalCounter = new JLabel(metal + "");
 
     public BuildMenu(Player player) {
         this.player = player;
+
         this.setBounds(100, 10, 1294, 757);
-        //inicializirane na vsichko statichno
+
+        //inicializirane
         this.shipStyleSetter();
 
         // <editor-fold defaultstate="collapsed" desc="1-tile ship">
@@ -93,7 +95,8 @@ public class BuildMenu extends javax.swing.JFrame {
 
         // <editor-fold defaultstate="collapsed" desc="nextPhase">
         nextPhase.setBounds(1000, 10, 100, 50);
-        nextPhase.setOpaque(true);
+        nextPhase.setOpaque(false);
+        nextPhase.setIcon(grayButton);
         nextPhase.setFont(new Font("Comic Sans", Font.BOLD, 20));
         nextPhase.addMouseListener(new MouseAdapter() {
             @Override
@@ -110,8 +113,6 @@ public class BuildMenu extends javax.swing.JFrame {
         metalCounter.setOpaque(false);
         metalCounter.setFont(new Font("Comic Sans", Font.BOLD, 40));
         // </editor-fold>
-        
-        layeredPane.setBounds(0, 0, 1280, 720);
 
         // <editor-fold defaultstate="collapsed" desc="background">
         ImageIcon backgroundIcon = new ImageIcon("src/images/BuildArea.png");
@@ -119,6 +120,7 @@ public class BuildMenu extends javax.swing.JFrame {
         // Image modifiedBackgroundImage = backgroundImage.getScaledInstance(this.getWidth(), this.getHeight(), java.awt.Image.SCALE_SMOOTH);
         // backgroundIcon = new ImageIcon(modifiedBackgroundImage);
         background.setIcon(backgroundIcon);
+        layeredPane.setBounds(0, 0, 1280, 720);
         background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         // </editor-fold>
 
@@ -126,8 +128,8 @@ public class BuildMenu extends javax.swing.JFrame {
         this.revalidate();
         this.addKeyListener(new MKeyListener());
 
-        layeredPane.add(metalCounter, Integer.valueOf(5));
-        layeredPane.add(nextPhase, Integer.valueOf(5));
+        layeredPane.add(metalCounter, Integer.valueOf(1));
+        layeredPane.add(nextPhase, Integer.valueOf(1));
         layeredPane.add(background, Integer.valueOf(0));
         for (int i = 0; i < staticShipLabels.length(); i++) {
             layeredPane.add(staticShipLabels.elementGetter(i), Integer.valueOf(1));
@@ -136,14 +138,14 @@ public class BuildMenu extends javax.swing.JFrame {
     }
 
     private void switchScene() {
-        if (MainMenu.getCurrentPhase() == 0) {
+        if (MainMenu.getCurrentPhase() == 1) {
             MainMenu.setP1(player);
-            MainMenu.setCurrentPhase(1);
+            MainMenu.setCurrentPhase(2);
             this.dispose();
             new MainMenu().run();
-        } else if (MainMenu.getCurrentPhase() == 1) {
+        } else if (MainMenu.getCurrentPhase() == 2) {
             MainMenu.setP2(player);
-            MainMenu.setCurrentPhase(2);
+            MainMenu.setCurrentPhase(3);
             this.dispose();
             new MainMenu().run();
         }
