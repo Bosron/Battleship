@@ -165,31 +165,39 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     public void run() {
-        if (currentPhase == 0) {
-            if (!(txtP1.getText().equals("")) && !(txtP2.getText().equals("")) && shipStyle != 0) {
-                p1.setName(txtP1.getText());
-                p2.setName(txtP2.getText());
-                p1.setShipStyle(shipStyle);
-                p2.setShipStyle(shipStyle);
-                this.dispose();
+        switch (currentPhase) {
+            case 0:
+                if (!(txtP1.getText().equals("")) && !(txtP2.getText().equals("")) && shipStyle != 0) {
+                    p1.setName(txtP1.getText());
+                    p2.setName(txtP2.getText());
+                    p1.setShipStyle(shipStyle);
+                    p2.setShipStyle(shipStyle);
+                    this.dispose();
+                    currentPhase = 1;
+                    run();
+                } else if (shipStyle != 0) {
+                    lblNoName.setText("Insert a name!");
+                } else if (shipStyle == 0) {
+                    lblNoStyle.setText("Choose a ship style!");
+                }   break;
+            case 1:
                 new BuildMenu(p1).setVisible(true);
-            } else if (shipStyle != 0) {
-                lblNoName.setText("Insert a name!");
-            } else if (shipStyle == 0) {
-                lblNoStyle.setText("Choose a ship style!");
-            }
-        } else if (currentPhase == 1) {
-            new BuildMenu(p2).setVisible(true);
-        } else if (currentPhase == 2) {
-            new StrikeMenu(p1,p2).setVisible(true);
-        } else if (currentPhase == 3) {
-            new StrikeMenu(p2,p1).setVisible(true);
-        } else if (currentPhase == 4) {
-            //new EndMenu(p1,p2).setVisible(true);//p1-winner, p2-loser
-            System.out.println("p1-winner");
-        } else if (currentPhase == 5) {
-            //new EndMenu(p2,p1).setVisible(true);//p2-winner, p1-loser
-            System.out.println("p2-winner");
+                break;
+            case 2:
+                new BuildMenu(p2).setVisible(true);
+                break;
+            case 3:
+                new StrikeMenu(p1,p2).setVisible(true);
+                break;
+            case 4:
+                new StrikeMenu(p2,p1).setVisible(true);
+                break;
+            case 5:
+                new EndScreen(p1,p2).setVisible(true);
+                break;
+            case 6:
+                new EndScreen(p2,p1).setVisible(true);
+                break;
         }
     }
 
