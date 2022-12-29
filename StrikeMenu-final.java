@@ -15,6 +15,9 @@ public class StrikeMenu extends javax.swing.JFrame {
     //scene
     private JLayeredPane layeredPane = new JLayeredPane();
     private JLabel background = new JLabel();
+    private JLabel backdrop = new JLabel();
+    private ImageIcon backDropIcon = new ImageIcon("src/images/backdrop.png");
+    private ImageIcon backgroundIcon = new ImageIcon("src/images/StrikeArea.png");
     private ImageIcon redX = new ImageIcon("src/images/redX.png");
     private ImageIcon whiteX = new ImageIcon("src/images/whiteX.png");
     private ImageIcon grayButton = new ImageIcon("src/images/grayButton.png");
@@ -41,6 +44,7 @@ public class StrikeMenu extends javax.swing.JFrame {
         strikeCounter.setText(strikes + "");
         
         this.setBounds(100, 10, 900, 757);
+        layeredPane.setBounds(0, 0, 900, 720);
 
         //inicializirane
 
@@ -61,24 +65,28 @@ public class StrikeMenu extends javax.swing.JFrame {
         // <editor-fold defaultstate="collapsed" desc="strikeCounter">
         strikeCounter.setBounds(800, 10, 50, 50);
         strikeCounter.setOpaque(false);
-        strikeCounter.setFont(new Font("Comic Sans", Font.BOLD, 40));
+        strikeCounter.setFont(new Font("Fira Sans", Font.BOLD, 40));
         // </editor-fold>  
 
         // <editor-fold defaultstate="collapsed" desc="background">
-        ImageIcon backgroundIcon = new ImageIcon("src/images/StrikeArea.png");
-        layeredPane.setBounds(0, 0, 900, 720);
         background.setIcon(backgroundIcon);
         background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="backdrop">
+        backdrop.setIcon(backDropIcon);
+        backdrop.setBounds(0, 0, 1980, 1080);
         // </editor-fold>
 
         this.setLayeredPane(layeredPane);
         this.revalidate();
 
-        layeredPane.add(nextTurn, Integer.valueOf(1));
-        layeredPane.add(strikeCounter, Integer.valueOf(1));
-        layeredPane.add(background, Integer.valueOf(0));
+        layeredPane.add(nextTurn, Integer.valueOf(2));
+        layeredPane.add(strikeCounter, Integer.valueOf(2));
+        layeredPane.add(background, Integer.valueOf(1));
+        layeredPane.add(backdrop, Integer.valueOf(0));
         for (int i = 0; i < xLabels.length(); i++) {
-            layeredPane.add(xLabels.elementGetter(i), Integer.valueOf(1));
+            layeredPane.add(xLabels.elementGetter(i), Integer.valueOf(2));
         }
         markPastAttempts();//slaga hiksove kudeto igrachut veche e streylal perdishnite hodove
         this.addMouseListener(new MouseAdapterForCrossSpawning());
