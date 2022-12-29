@@ -32,6 +32,9 @@ public class BuildMenu extends javax.swing.JFrame {
     //scene
     private JLayeredPane layeredPane = new JLayeredPane();
     private JLabel background = new JLabel();
+    private JLabel backdrop = new JLabel();
+    private ImageIcon backgroundIcon = new ImageIcon("src/images/BuildArea.png");
+    private ImageIcon backDropIcon = new ImageIcon("src/images/backdrop.png");
     private ImageIcon oneTile;
     private ImageIcon twoTile;
     private ImageIcon threeTile;
@@ -59,6 +62,7 @@ public class BuildMenu extends javax.swing.JFrame {
         this.player = player;
 
         this.setBounds(100, 10, 1294, 757);
+        layeredPane.setBounds(0, 0, 1280, 720);
 
         //inicializirane
         this.shipStyleSetter();
@@ -97,7 +101,6 @@ public class BuildMenu extends javax.swing.JFrame {
         nextPhase.setBounds(1000, 10, 100, 50);
         nextPhase.setOpaque(false);
         nextPhase.setIcon(grayButton);
-        nextPhase.setFont(new Font("Comic Sans", Font.BOLD, 20));
         nextPhase.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -111,28 +114,29 @@ public class BuildMenu extends javax.swing.JFrame {
         // <editor-fold defaultstate="collapsed" desc="metalCounter">
         metalCounter.setBounds(1150, 10, 50, 50);
         metalCounter.setOpaque(false);
-        metalCounter.setFont(new Font("Comic Sans", Font.BOLD, 40));
+        metalCounter.setFont(new Font("Fira Sans", Font.BOLD, 40));
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="background">
-        ImageIcon backgroundIcon = new ImageIcon("src/images/BuildArea.png");
-        //  Image backgroundImage = backgroundIcon.getImage();
-        // Image modifiedBackgroundImage = backgroundImage.getScaledInstance(this.getWidth(), this.getHeight(), java.awt.Image.SCALE_SMOOTH);
-        // backgroundIcon = new ImageIcon(modifiedBackgroundImage);
         background.setIcon(backgroundIcon);
-        layeredPane.setBounds(0, 0, 1280, 720);
         background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="backdrop">
+        backdrop.setIcon(backDropIcon);
+        backdrop.setBounds(0, 0, 1980, 1080);
         // </editor-fold>
 
         this.setLayeredPane(layeredPane);
         this.revalidate();
         this.addKeyListener(new MKeyListener());
 
-        layeredPane.add(metalCounter, Integer.valueOf(1));
-        layeredPane.add(nextPhase, Integer.valueOf(1));
-        layeredPane.add(background, Integer.valueOf(0));
+        layeredPane.add(metalCounter, Integer.valueOf(2));
+        layeredPane.add(nextPhase, Integer.valueOf(2));
+        layeredPane.add(background, Integer.valueOf(1));
+        layeredPane.add(backdrop, Integer.valueOf(0));
         for (int i = 0; i < staticShipLabels.length(); i++) {
-            layeredPane.add(staticShipLabels.elementGetter(i), Integer.valueOf(1));
+            layeredPane.add(staticShipLabels.elementGetter(i), Integer.valueOf(2));
         }
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
@@ -375,7 +379,6 @@ public class BuildMenu extends javax.swing.JFrame {
         }
     }
 
-    //</editor-fold>
     class DynamicLabelArray {
 
         private JLabel[] shipLabels = new JLabel[0];
