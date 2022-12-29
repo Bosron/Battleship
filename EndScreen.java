@@ -98,6 +98,8 @@ public class EndScreen extends javax.swing.JFrame {
         Player p2 = new Player();
         p1.setName(loser.getName());
         p2.setName(winner.getName());
+        p1.setShipStyle(loser.getShipStyle());
+        p2.setShipStyle(winner.getShipStyle());
         MainMenu.setP1(p1);
         MainMenu.setP2(p2);
         MainMenu.setCurrentPhase(1);
