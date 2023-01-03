@@ -368,7 +368,7 @@ public class BuildMenu extends javax.swing.JFrame {
                     Ship ship = new Ship(length, orientation, shipImage, false, posX, posY);
                     if (placeCheck(player, ship) && (metal - length) >= 0) {
                         shipLabels.addLabel();
-                        shipLabels.spawnShip(shipLabels.length() - 1, determineX(ship), determineY(ship));
+                        shipLabels.spawnLabel(shipLabels.length() - 1, determineX(ship), determineY(ship),width,height,labelGhostIcon);
                         layeredPane.add(shipLabels.elementGetter(shipLabels.length() - 1), Integer.valueOf(2));
                         layeredPane.revalidate();
                         buildShip(player, ship);
