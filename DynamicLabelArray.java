@@ -1,3 +1,11 @@
+package battleship;
+
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+
 class DynamicLabelArray {
 
         private JLabel[] labels = new JLabel[0];
@@ -57,9 +65,9 @@ class DynamicLabelArray {
             return labels.length;
         }
 
-        public void spawnShip(int numberInArray, int x, int y) {
+        public void spawnLabel(int numberInArray, int x, int y,int width, int height, ImageIcon labelGhostIcon) {
             labels[numberInArray] = new JLabel();
-            labels[numberInArray].setIcon((Icon) labelGhostIcon);
+            labels[numberInArray].setIcon( labelGhostIcon);
             labels[numberInArray].setBounds(x, y, width, height);
             labels[numberInArray].setOpaque(false);
         }
@@ -68,7 +76,7 @@ class DynamicLabelArray {
             labels[numberInArray].setBounds(x, y, width, height);
         }
 
-        public void iconSetter(int numberInArray, Icon icon) {
+        public void iconSetter(int numberInArray, ImageIcon icon) {
             labels[numberInArray].setIcon(icon);
         }
 
