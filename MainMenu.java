@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class MainMenu extends javax.swing.JFrame {
@@ -158,16 +160,23 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void boxStyleActionPerformed(java.awt.event.ActionEvent evt) {
         shipStyle = boxStyle.getSelectedIndex();
+        lblNoStyle.setText("");
     }
 
     public static void main(String args[]) {
         new MainMenu().setVisible(true);
     }
+    
+    private boolean checkName (String userName) {
+        Pattern p = Pattern.compile("[a-zA-z1-9]");
+        Matcher m = p.matcher(userName);
+        return m.matches();
+    }
 
     public void run() {
         switch (currentPhase) {
             case 0:
-                if (!(txtP1.getText().equals("")) && !(txtP2.getText().equals("")) && shipStyle != 0) {
+                if(checkName(txtP1.getText()) && checkName(txtP2.getText()) && shipStyle != 0){
                     p1.setName(txtP1.getText());
                     p2.setName(txtP2.getText());
                     p1.setShipStyle(shipStyle);
