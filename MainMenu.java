@@ -168,7 +168,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
     
     private boolean checkName (String userName) {
-        Pattern p = Pattern.compile("[a-zA-z1-9]");
+        Pattern p = Pattern.compile("[a-zA-z1-9]{1,10}");
         Matcher m = p.matcher(userName);
         return m.matches();
     }
