@@ -9,6 +9,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.WindowConstants;
 
 //@authors: borisks & damyanlh
+
 public class EndScreen extends javax.swing.JFrame {
 
     //scene
@@ -49,14 +50,14 @@ public class EndScreen extends javax.swing.JFrame {
         stats1.setBounds(300, 250, 400, 50);
         stats1.setOpaque(false);
         stats1.setFont(new Font("Fira Sans", Font.BOLD, 20));
-        stats1.setText(winner.getName() + "'s accuracy: " + findAccuracy(winner));
+        stats1.setText(winner.getName() + "'s accuracy: " + findAccuracy(loser));
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="stats2">
         stats2.setBounds(300, 350, 400, 50);
         stats2.setOpaque(false);
         stats2.setFont(new Font("Fira Sans", Font.BOLD, 20));
-        stats2.setText(loser.getName() + "'s accuracy: " + findAccuracy(loser));
+        stats2.setText(loser.getName() + "'s accuracy: " + findAccuracy(winner));
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="credits">
