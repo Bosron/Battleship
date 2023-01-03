@@ -9,7 +9,7 @@ public class MainMenu extends javax.swing.JFrame {
     private static Player p1 = new Player();
     private static Player p2 = new Player();
     private int shipStyle = 0;
-    private static int currentPhase = 0;
+    private static int currentPhase = -1;
 
     public static void setCurrentPhase(int currentPhase) {
         MainMenu.currentPhase = currentPhase;
@@ -166,7 +166,7 @@ public class MainMenu extends javax.swing.JFrame {
     public static void main(String args[]) {
         new MainMenu().setVisible(true);
     }
-    
+
     private boolean checkName (String userName) {
         Pattern p = Pattern.compile("[a-zA-z1-9]{1,10}");
         Matcher m = p.matcher(userName);
@@ -175,20 +175,32 @@ public class MainMenu extends javax.swing.JFrame {
 
     public void run() {
         switch (currentPhase) {
-            case 0:
-                if(checkName(txtP1.getText()) && checkName(txtP2.getText()) && shipStyle != 0){
+            case -1:
+                if (checkName(txtP1.getText()) && shipStyle != 0) {
                     p1.setName(txtP1.getText());
-                    p2.setName(txtP2.getText());
                     p1.setShipStyle(shipStyle);
+                    this.dispose();
+                    currentPhase = 0;
+                    new MainMenu().setVisible(true);
+                } else if (shipStyle != 0) {
+                    lblNoName.setText("Insert a valid name!");
+                } else if (shipStyle == 0) {
+                    lblNoStyle.setText("Choose a ship style!");
+                }
+                break;
+            case 0:
+                if (checkName(txtP2.getText()) && !txtP2.getText().equals(p1.getName()) && shipStyle != 0) {
+                    p2.setName(txtP2.getText());
                     p2.setShipStyle(shipStyle);
                     this.dispose();
                     currentPhase = 1;
                     run();
                 } else if (shipStyle != 0) {
-                    lblNoName.setText("Insert a name!");
+                    lblNoName.setText("Insert a valid name!");
                 } else if (shipStyle == 0) {
                     lblNoStyle.setText("Choose a ship style!");
-                }   break;
+                }
+                break;
             case 1:
                 new BuildMenu(p1).setVisible(true);
                 break;
