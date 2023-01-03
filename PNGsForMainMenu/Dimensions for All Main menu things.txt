@@ -1,0 +1,22 @@
+START - 200 53
+Rules - 142 50
+Credits - 180 50
+Options - 175 53
+Quit - 85 44
+Background - 900 720
+title - 806 120
+buttonBackdrop - 280 384
+
+
+Links for potential backgeounds
+https://www.google.com/search?q=painting+of+ww1+navy+battle&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiL3NCb3J78AhX4QvEDHSf-CaAQ_AUoAXoECAEQAw&biw=1536&bih=754&dpr=1.25
+
+https://www.google.com/search?q=modern+ship++fighting+a+galleon&tbm=isch&ved=2ahUKEwjc5PaL7J78AhWk7LsIHXEoAIkQ2-cCegQIABAA&oq=modern+ship++fighting+a+galleon&gs_lcp=CgNpbWcQAzoECCMQJ1C3CVjEF2CWGWgAcAB4AIABWIgBlwiSAQIxM5gBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=KoqtY9ynGaTZ7_UP8dCAyAg&bih=881&biw=1745
+
+https://www.google.com/search?q=painting+of+a+ww2+admiral&sxsrf=ALiCzsYwTRnD7fyD4tELKwtVN4d-7bcx7A:1672318529005&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi2mf3-7578AhXOSPEDHWM1DVQQ_AUoAXoECAEQAw&biw=1745&bih=881&dpr=1.1#imgrc=0PNs849gDFQ-NM
+
+https://www.google.com/search?q=admiral+looking+to+the+right&tbm=isch&ved=2ahUKEwiui6iv8J78AhWpx7sIHWCJCsgQ2-cCegQIABAA&oq=admiral+looking+to+the+right&gs_lcp=CgNpbWcQAzIECCMQJ1C8B1i8B2DEGWgAcAB4AIABa4gBvwGSAQMxLjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=po6tY66gFqmP7_UP4JKqwAw&bih=881&biw=1745#imgrc=6vV1jluoSaiMeM
+
+https://www.google.com/search?q=british++admiral&tbm=isch&ved=2ahUKEwiF8qKV8Z78AhUVlv0HHUaCC7sQ2-cCegQIABAA&oq=british++admiral&gs_lcp=CgNpbWcQAzIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6BAgjECc6BggAEAcQHlD4BliUD2CpEGgAcAB4AIABZogB9AWSAQM4LjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=fI-tY4XEC5Ws9u8PxoSu2As&bih=881&biw=1745#imgrc=Ux7hm3qpJqXviM
+
+https://www.google.com/search?q=battleship+pc+game&tbm=isch&ved=2ahUKEwi__sWhjp_8AhUumf0HHY88ApkQ2-cCegQIABAA&oq=battleship+pc+game&gs_lcp=CgNpbWcQAzIFCAAQgAQyBQgAEIAEMgcIABCABBAYOgQIIxAnOgYIABAHEB5Q2wZYtApgzQtoAHAAeACAAVmIAc4CkgEBNJgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=_q2tY7-HIq6y9u8Pj_mIyAk#imgrc=KUswpkPSkF7LYM
