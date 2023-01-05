@@ -1,0 +1,8 @@
+Player 1 - 424, 132
+Player 2 - 447, 133
+Name - 111, 29
+Ship Style - 170, 38
+ShipShowcase 398, 276
+Rules - 143, 50
+LeftArrow - 40,75
+RightArrow - 40,75
