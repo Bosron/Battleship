@@ -371,7 +371,8 @@ public class BuildMenu extends javax.swing.JFrame {
                     Ship ship = new Ship(length, orientation, shipImage, false, posX, posY);
                     if (placeCheck(player, ship) && (metal - length) >= 0) {
                         shipLabels.addLabel();
-                        shipLabels.spawnShip(shipLabels.length() - 1, determineX(ship), determineY(ship));
+                        shipLabels.spawnLabel(shipLabels.length() - 1, determineX(ship), determineY(ship),width,height,labelGhostIcon);
+                        layeredPane.add(shipLabels.elementGetter(shipLabels.length() - 1), Integer.valueOf(2));
                         layeredPane.revalidate();
                         buildShip(player, ship);
                         metalCounter.setText(metal + "");
@@ -380,87 +381,5 @@ public class BuildMenu extends javax.swing.JFrame {
             }
             orientation = 0;
         }
-    }
-
-    class DynamicLabelArray {
-
-        private JLabel[] shipLabels = new JLabel[0];
-
-        public DynamicLabelArray(int length) {
-            shipLabels = new JLabel[length];
-            for (int i = 0; i < shipLabels.length; i++) {
-                shipLabels[i] = new JLabel();
-                shipLabels[i].setBounds(0, 0, 1, 1);
-            }
-        }
-
-        public void setshipLabels(JLabel[] arr) {
-            for (int i = 0; i < shipLabels.length; i++) {
-                this.shipLabels[i] = arr[i];
-            }
-        }
-
-        public void addLabel() {
-            JLabel[] arr = new JLabel[shipLabels.length + 1];
-            for (int i = 0; i < shipLabels.length; i++) {
-                arr[i] = shipLabels[i];
-
-            }
-            shipLabels = new JLabel[arr.length];
-            setshipLabels(arr);
-        }
-
-        public void removeLabel(int elementNumber) {
-
-            if (elementNumber >= 0 && elementNumber < shipLabels.length) {
-                JLabel[] arr = new JLabel[shipLabels.length - 1];
-                for (int i = 0, y = 0; i < shipLabels.length; i++, y++) {
-
-                    if (i == elementNumber) {
-                        shipLabels[i].setVisible(false);
-
-                        if (elementNumber == shipLabels.length - 1) {
-
-                        } else {
-                            y--;
-                        }
-                    } else {
-                        arr[y] = shipLabels[i];
-                    }
-
-                }
-                shipLabels = new JLabel[arr.length];
-                setshipLabels(arr);
-
-            } else {
-                System.out.println("Error: not able to remove element out of array length");
-            }
-        }
-
-        public int length() {
-            return shipLabels.length;
-        }
-
-        public void spawnShip(int numberInArray, int x, int y) {
-            shipLabels[numberInArray] = new JLabel();
-            shipLabels[numberInArray].setIcon(labelGhostIcon);
-            shipLabels[numberInArray].setBounds(x, y, width, height);
-            shipLabels[numberInArray].setOpaque(false);
-            layeredPane.add(shipLabels[numberInArray], Integer.valueOf(2));
-            layeredPane.revalidate();
-        }
-
-        public void boundsSetter(int numberInArray, int x, int y, int width, int height) {
-            shipLabels[numberInArray].setBounds(x, y, width, height);
-        }
-
-        public void iconSetter(int numberInArray, ImageIcon icon) {
-            shipLabels[numberInArray].setIcon(icon);
-        }
-
-        public JLabel elementGetter(int numberInArray) {
-            return shipLabels[numberInArray];
-        }
-
     }
 }
