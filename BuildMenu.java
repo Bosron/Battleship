@@ -1,5 +1,6 @@
 package battleship;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -31,9 +32,8 @@ public class BuildMenu extends javax.swing.JFrame {
     //scene
     private JLayeredPane layeredPane = new JLayeredPane();
     private JLabel background = new JLabel();
-    private JLabel backdrop = new JLabel();
+    private JLabel name = new JLabel();
     private ImageIcon backgroundIcon = new ImageIcon("src/images/BuildArea.png");
-    private ImageIcon backDropIcon = new ImageIcon("src/images/backdrop.png");
     private ImageIcon oneTile;
     private ImageIcon twoTile;
     private ImageIcon threeTile;
@@ -59,8 +59,9 @@ public class BuildMenu extends javax.swing.JFrame {
 
     public BuildMenu(Player player) {
         this.player = player;
-        this.setBounds(343,161, 1294, 757);
-        
+
+        this.setBounds(100, 10, 1294, 757);
+        this.setResizable(false);
         layeredPane.setBounds(0, 0, 1280, 720);
 
         //inicializirane
@@ -121,19 +122,22 @@ public class BuildMenu extends javax.swing.JFrame {
         background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="backdrop">
-        backdrop.setIcon(backDropIcon);
-        backdrop.setBounds(0, 0, 1980, 1080);
+        // <editor-fold defaultstate="collapsed" desc="name">
+        name.setBounds(730, 375, 170, 29);
+        name.setText(player.getName());
+        name.setForeground(Color.WHITE);
+        name.setOpaque(false);
+        name.setFont(new Font("Fira Sans", Font.BOLD, 20));
         // </editor-fold>
 
         this.setLayeredPane(layeredPane);
         this.revalidate();
         this.addKeyListener(new MKeyListener());
 
+        layeredPane.add(name, Integer.valueOf(2));
         layeredPane.add(metalCounter, Integer.valueOf(2));
         layeredPane.add(nextPhase, Integer.valueOf(2));
         layeredPane.add(background, Integer.valueOf(1));
-        layeredPane.add(backdrop, Integer.valueOf(0));
         for (int i = 0; i < staticShipLabels.length(); i++) {
             layeredPane.add(staticShipLabels.elementGetter(i), Integer.valueOf(2));
         }
@@ -141,16 +145,16 @@ public class BuildMenu extends javax.swing.JFrame {
     }
 
     private void switchScene() {
-        if (MainMenu.getCurrentPhase() == 1) {
-            MainMenu.setP1(player);
-            MainMenu.setCurrentPhase(2);
+        if (CharacterCreator.getCurrentPhase() == 1) {
+            CharacterCreator.setP1(player);
+            CharacterCreator.setCurrentPhase(2);
             this.dispose();
-            new MainMenu().run();
-        } else if (MainMenu.getCurrentPhase() == 2) {
-            MainMenu.setP2(player);
-            MainMenu.setCurrentPhase(3);
+            new CharacterCreator().run();
+        } else if (CharacterCreator.getCurrentPhase() == 2) {
+            CharacterCreator.setP2(player);
+            CharacterCreator.setCurrentPhase(3);
             this.dispose();
-            new MainMenu().run();
+            new CharacterCreator().run();
         }
     }
 
@@ -367,8 +371,7 @@ public class BuildMenu extends javax.swing.JFrame {
                     Ship ship = new Ship(length, orientation, shipImage, false, posX, posY);
                     if (placeCheck(player, ship) && (metal - length) >= 0) {
                         shipLabels.addLabel();
-                        shipLabels.spawnLabel(shipLabels.length() - 1, determineX(ship), determineY(ship),width,height,labelGhostIcon);
-                        layeredPane.add(shipLabels.elementGetter(shipLabels.length() - 1), Integer.valueOf(2));
+                        shipLabels.spawnShip(shipLabels.length() - 1, determineX(ship), determineY(ship));
                         layeredPane.revalidate();
                         buildShip(player, ship);
                         metalCounter.setText(metal + "");
@@ -379,5 +382,85 @@ public class BuildMenu extends javax.swing.JFrame {
         }
     }
 
- 
+    class DynamicLabelArray {
+
+        private JLabel[] shipLabels = new JLabel[0];
+
+        public DynamicLabelArray(int length) {
+            shipLabels = new JLabel[length];
+            for (int i = 0; i < shipLabels.length; i++) {
+                shipLabels[i] = new JLabel();
+                shipLabels[i].setBounds(0, 0, 1, 1);
+            }
+        }
+
+        public void setshipLabels(JLabel[] arr) {
+            for (int i = 0; i < shipLabels.length; i++) {
+                this.shipLabels[i] = arr[i];
+            }
+        }
+
+        public void addLabel() {
+            JLabel[] arr = new JLabel[shipLabels.length + 1];
+            for (int i = 0; i < shipLabels.length; i++) {
+                arr[i] = shipLabels[i];
+
+            }
+            shipLabels = new JLabel[arr.length];
+            setshipLabels(arr);
+        }
+
+        public void removeLabel(int elementNumber) {
+
+            if (elementNumber >= 0 && elementNumber < shipLabels.length) {
+                JLabel[] arr = new JLabel[shipLabels.length - 1];
+                for (int i = 0, y = 0; i < shipLabels.length; i++, y++) {
+
+                    if (i == elementNumber) {
+                        shipLabels[i].setVisible(false);
+
+                        if (elementNumber == shipLabels.length - 1) {
+
+                        } else {
+                            y--;
+                        }
+                    } else {
+                        arr[y] = shipLabels[i];
+                    }
+
+                }
+                shipLabels = new JLabel[arr.length];
+                setshipLabels(arr);
+
+            } else {
+                System.out.println("Error: not able to remove element out of array length");
+            }
+        }
+
+        public int length() {
+            return shipLabels.length;
+        }
+
+        public void spawnShip(int numberInArray, int x, int y) {
+            shipLabels[numberInArray] = new JLabel();
+            shipLabels[numberInArray].setIcon(labelGhostIcon);
+            shipLabels[numberInArray].setBounds(x, y, width, height);
+            shipLabels[numberInArray].setOpaque(false);
+            layeredPane.add(shipLabels[numberInArray], Integer.valueOf(2));
+            layeredPane.revalidate();
+        }
+
+        public void boundsSetter(int numberInArray, int x, int y, int width, int height) {
+            shipLabels[numberInArray].setBounds(x, y, width, height);
+        }
+
+        public void iconSetter(int numberInArray, ImageIcon icon) {
+            shipLabels[numberInArray].setIcon(icon);
+        }
+
+        public JLabel elementGetter(int numberInArray) {
+            return shipLabels[numberInArray];
+        }
+
+    }
 }
