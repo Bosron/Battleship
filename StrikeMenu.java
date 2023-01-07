@@ -194,75 +194,11 @@ public class StrikeMenu extends javax.swing.JFrame {
             for (int j = 0; j < 12; j++) {
                 if(opponent.getGrid(i, j) == 1 || opponent.getGrid(i, j) == 2){
                     xLabels.addLabel();
-                    xLabels.spawnX(xLabels.length() - 1, i, j);
+                    xLabels.spawnLabel(xLabels.length() - 1, i*60+5, j*60+5,50,50,isShip(i,j));
+                    layeredPane.add(xLabels.elementGetter(xLabels.length() - 1), Integer.valueOf(2));
+                    layeredPane.revalidate();
                 }
             }
-        }
-    }
-
-    class DynamicLabelArray {
-
-        private JLabel[] labels = new JLabel[0];
-
-        public DynamicLabelArray(int length) {
-            labels = new JLabel[length];
-            for (int i = 0; i < labels.length; i++) {
-                labels[i] = new JLabel();
-                labels[i].setBounds(0, 0, 1, 1);
-            }
-        }
-
-        public void setlabels(JLabel[] arr) {
-            for (int i = 0; i < labels.length; i++) {
-                this.labels[i] = arr[i];
-            }
-        }
-
-        public void addLabel() {
-            JLabel[] arr = new JLabel[labels.length + 1];
-            for (int i = 0; i < labels.length; i++) {
-                arr[i] = labels[i];
-            }
-            labels = new JLabel[arr.length];
-            setlabels(arr);
-        }
-
-        public void removeLabel(int elementNumber) {
-            if (elementNumber >= 0 && elementNumber < labels.length) {
-                JLabel[] arr = new JLabel[labels.length - 1];
-                for (int i = 0, y = 0; i < labels.length; i++, y++) {
-                    if (i == elementNumber) {
-                        labels[i].setVisible(false);
-                        if (elementNumber == labels.length - 1) {
-                        } else {
-                            y--;
-                        }
-                    } else {
-                        arr[y] = labels[i];
-                    }
-                }
-                labels = new JLabel[arr.length];
-                setlabels(arr);
-            } else {
-                System.out.println("Error: not able to remove element out of array length");
-            }
-        }
-
-        public int length() {
-            return labels.length;
-        }
-
-        public void spawnX(int numberInArray, int x, int y) {
-            labels[numberInArray] = new JLabel();
-            labels[numberInArray].setIcon(isShip(x, y));
-            labels[numberInArray].setBounds(x * 60 + 5, y * 60 + 5, 50, 50);
-            labels[numberInArray].setOpaque(false);
-            layeredPane.add(labels[numberInArray], Integer.valueOf(2));
-            layeredPane.revalidate();
-        }
-
-        public JLabel elementGetter(int numberInArray) {
-            return labels[numberInArray];
         }
     }
 
@@ -275,7 +211,9 @@ public class StrikeMenu extends javax.swing.JFrame {
                 int posY = (e.getY() - 30) / 60;
                 if (hasHit(posX, posY)) {
                     xLabels.addLabel();
-                    xLabels.spawnX(xLabels.length() - 1, posX, posY);
+                    xLabels.spawnLabel(xLabels.length() - 1, posX*60+5, posY*60+5,50,50,isShip(posX, posY));
+                    layeredPane.add(xLabels.elementGetter(xLabels.length() - 1), Integer.valueOf(2));
+                    layeredPane.revalidate();
                     strikeGrid(posX, posY);//promenia grida na playera
                     checkForSunkShips();//proverka dali celia korab e ucelen i go potopyava ako e, ako ne e go otpotopyava
                     strikes--;
