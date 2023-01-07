@@ -3,11 +3,11 @@ package battleship;
 public class Player {
 
     private int[][] grid = new int[12][12];
-    private int[][] veiledGrid = new int[12][12];
     private String name;
     private int biggestShip;
     private Ship[] ships = new Ship[20];//size = metal
     private int shipStyle;
+    private String currentAdmiralFileName;
 
     public void setName(String name) {
         this.name = name;
@@ -21,16 +21,20 @@ public class Player {
         this.grid[index1][index2] = value;
     }
 
-    public void setVeiledGrid(int value, int index1, int index2) {
-        this.veiledGrid[index1][index2] = value;
-    }
-
     public void setBiggestShip(int biggestShip) {
         this.biggestShip = biggestShip;
     }
 
     public void setShipStyle(int shipStyle) {
         this.shipStyle = shipStyle;
+    }
+
+    public void setCurrentAdmiralFileName(String currentAdmiralFileName){
+        this.currentAdmiralFileName = currentAdmiralFileName;
+    }
+
+    public String getCurrentAdmiralFileName(){
+        return currentAdmiralFileName;
     }
 
     public String getName() {
@@ -43,10 +47,6 @@ public class Player {
 
     public int getGrid(int index1, int index2) {
         return grid[index1][index2];
-    }
-
-    public int getVeiledGrid(int index1, int index2) {
-        return veiledGrid[index1][index2];
     }
 
     public int getBiggestShip() {
@@ -62,10 +62,6 @@ public class Player {
         this.name = name;
     }
 
-    public Player(Ship[] ships) {
-        this.ships = ships;
-    }
-
     public Player() {
         this("");
         for (int i = 0; i < ships.length; i++) {
@@ -74,7 +70,6 @@ public class Player {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 12; j++) {
                 grid[i][j] = 0;
-                veiledGrid[i][j] = 0;
             }
         }
     }
@@ -119,6 +114,10 @@ public class Player {
                 this.setGrid(0, posX, posY + i);
             }
         }
+    }
+
+    public Player (Player player){
+        this(player.getName());
     }
 
     @Override
