@@ -254,6 +254,7 @@ public class CharacterCreator extends javax.swing.JFrame {
             validateShipStyle(shipStyle);
             p1.setName(lblName.getText());
             p1.setShipStyle(shipStyle);
+            p1.setCurrentAdmiralFileName(newAdmiralFileName);
             this.dispose();
             currentPhase++;
             new CharacterCreator().setVisible(true);
@@ -285,6 +286,7 @@ public class CharacterCreator extends javax.swing.JFrame {
             validateShipStyle(shipStyle);
             p2.setName(lblName.getText());
             p2.setShipStyle(shipStyle);
+            p2.setCurrentAdmiralFileName(newAdmiralFileName);
             this.dispose();
             currentPhase++;
             run();
