@@ -1,5 +1,6 @@
 package battleship;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -8,15 +9,15 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.WindowConstants;
 
-//@authors: borisks & damyanlh
+//authors: borisks & damyanlh
 
 public class StrikeMenu extends javax.swing.JFrame {
 
     //scene
     private JLayeredPane layeredPane = new JLayeredPane();
     private JLabel background = new JLabel();
-    private JLabel backdrop = new JLabel();
-    private ImageIcon backDropIcon = new ImageIcon("src/images/backdrop.png");
+    private JLabel admiral = new JLabel();
+    private JLabel name = new JLabel();
     private ImageIcon backgroundIcon = new ImageIcon("src/images/StrikeArea.png");
     private ImageIcon redX = new ImageIcon("src/images/redX.png");
     private ImageIcon whiteX = new ImageIcon("src/images/whiteX.png");
@@ -31,6 +32,7 @@ public class StrikeMenu extends javax.swing.JFrame {
     private Player opponent = new Player();
     private int strikes;
     private boolean strikePhase = true;
+    private static int rounds = 1;
 
     //next phase
     private JLabel nextTurn = new JLabel(grayButton);
@@ -43,8 +45,9 @@ public class StrikeMenu extends javax.swing.JFrame {
         strikes = player.getBiggestShip();
         strikeCounter.setText(strikes + "");
         
-        this.setBounds(100, 10, 900, 757);
-        layeredPane.setBounds(0, 0, 900, 720);
+        this.setBounds(100, 10, 1130, 757);
+        this.setResizable(false);
+        layeredPane.setBounds(0, 0, 1130, 720);
 
         //inicializirane
 
@@ -66,31 +69,45 @@ public class StrikeMenu extends javax.swing.JFrame {
         strikeCounter.setBounds(800, 10, 50, 50);
         strikeCounter.setOpaque(false);
         strikeCounter.setFont(new Font("Fira Sans", Font.BOLD, 40));
-        // </editor-fold>  
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="admiral">
+        admiral.setBounds(750, 75, 325, 412);
+        admiral.setIcon(new ImageIcon(player.getCurrentAdmiralFileName()));
+        admiral.setOpaque(false);
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="name">
+        name.setBounds(800, 500, 170, 29);
+        name.setText(player.getName());
+        name.setForeground(Color.WHITE);
+        name.setOpaque(false);
+        name.setFont(new Font("Fira Sans", Font.BOLD, 20));
+        // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="background">
         background.setIcon(backgroundIcon);
         background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="backdrop">
-        backdrop.setIcon(backDropIcon);
-        backdrop.setBounds(0, 0, 1980, 1080);
-        // </editor-fold>
-
         this.setLayeredPane(layeredPane);
         this.revalidate();
 
+        layeredPane.add(admiral, Integer.valueOf(2));
+        layeredPane.add(name, Integer.valueOf(2));
         layeredPane.add(nextTurn, Integer.valueOf(2));
         layeredPane.add(strikeCounter, Integer.valueOf(2));
         layeredPane.add(background, Integer.valueOf(1));
-        layeredPane.add(backdrop, Integer.valueOf(0));
         for (int i = 0; i < xLabels.length(); i++) {
             layeredPane.add(xLabels.elementGetter(i), Integer.valueOf(2));
         }
-        markPastAttempts();//slaga hiksove kudeto igrachut veche e streylal perdishnite hodove
+        markPastAttempts();
         this.addMouseListener(new MouseAdapterForCrossSpawning());
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    public static int getRounds(){
+        return rounds;
     }
 
     private void strikeGrid(int posX, int posY) {
@@ -102,7 +119,7 @@ public class StrikeMenu extends javax.swing.JFrame {
 
     }
 
-    private void checkForSunkShips() {//kakvoto i da se sluchva tuk e greshno -> pulen re-work
+    private void checkForSunkShips() {
         boolean isSunk = true;
         for (int i = 0; i < 20; i++) {
             Ship ship = opponent.getShip(i);
@@ -140,24 +157,25 @@ public class StrikeMenu extends javax.swing.JFrame {
     }
 
     private void switchScene() {
-        if (MainMenu.getCurrentPhase() == 3) {
-            MainMenu.setP2(opponent);
+        if (CharacterCreator.getCurrentPhase() == 3) {
+            CharacterCreator.setP2(opponent);
             if (loseCon) {
-                MainMenu.setCurrentPhase(5);
+                CharacterCreator.setCurrentPhase(5);
             } else {
-                MainMenu.setCurrentPhase(4);
+                CharacterCreator.setCurrentPhase(4);
             }
             this.dispose();
-            new MainMenu().run();
-        } else if (MainMenu.getCurrentPhase() == 4) {
-            MainMenu.setP1(opponent);
+            new CharacterCreator().run();
+        } else if (CharacterCreator.getCurrentPhase() == 4) {
+            CharacterCreator.setP1(opponent);
             if (loseCon) {
-                MainMenu.setCurrentPhase(6);
+                CharacterCreator.setCurrentPhase(6);
             } else {
-                MainMenu.setCurrentPhase(3);
+                CharacterCreator.setCurrentPhase(3);
+                rounds++;
             }
             this.dispose();
-            new MainMenu().run();
+            new CharacterCreator().run();
         }
     }
 
@@ -176,15 +194,77 @@ public class StrikeMenu extends javax.swing.JFrame {
             for (int j = 0; j < 12; j++) {
                 if(opponent.getGrid(i, j) == 1 || opponent.getGrid(i, j) == 2){
                     xLabels.addLabel();
-                    xLabels.spawnLabel(xLabels.length() - 1, i*60+5, j*60+5,50,50,isShip(i,j));
-                    layeredPane.add(xLabels.elementGetter(xLabels.length() - 1), Integer.valueOf(2));
-                    layeredPane.revalidate();
+                    xLabels.spawnX(xLabels.length() - 1, i, j);
                 }
             }
         }
     }
 
-    
+    class DynamicLabelArray {
+
+        private JLabel[] labels = new JLabel[0];
+
+        public DynamicLabelArray(int length) {
+            labels = new JLabel[length];
+            for (int i = 0; i < labels.length; i++) {
+                labels[i] = new JLabel();
+                labels[i].setBounds(0, 0, 1, 1);
+            }
+        }
+
+        public void setlabels(JLabel[] arr) {
+            for (int i = 0; i < labels.length; i++) {
+                this.labels[i] = arr[i];
+            }
+        }
+
+        public void addLabel() {
+            JLabel[] arr = new JLabel[labels.length + 1];
+            for (int i = 0; i < labels.length; i++) {
+                arr[i] = labels[i];
+            }
+            labels = new JLabel[arr.length];
+            setlabels(arr);
+        }
+
+        public void removeLabel(int elementNumber) {
+            if (elementNumber >= 0 && elementNumber < labels.length) {
+                JLabel[] arr = new JLabel[labels.length - 1];
+                for (int i = 0, y = 0; i < labels.length; i++, y++) {
+                    if (i == elementNumber) {
+                        labels[i].setVisible(false);
+                        if (elementNumber == labels.length - 1) {
+                        } else {
+                            y--;
+                        }
+                    } else {
+                        arr[y] = labels[i];
+                    }
+                }
+                labels = new JLabel[arr.length];
+                setlabels(arr);
+            } else {
+                System.out.println("Error: not able to remove element out of array length");
+            }
+        }
+
+        public int length() {
+            return labels.length;
+        }
+
+        public void spawnX(int numberInArray, int x, int y) {
+            labels[numberInArray] = new JLabel();
+            labels[numberInArray].setIcon(isShip(x, y));
+            labels[numberInArray].setBounds(x * 60 + 5, y * 60 + 5, 50, 50);
+            labels[numberInArray].setOpaque(false);
+            layeredPane.add(labels[numberInArray], Integer.valueOf(2));
+            layeredPane.revalidate();
+        }
+
+        public JLabel elementGetter(int numberInArray) {
+            return labels[numberInArray];
+        }
+    }
 
     class MouseAdapterForCrossSpawning extends MouseAdapter {
 
@@ -195,9 +275,7 @@ public class StrikeMenu extends javax.swing.JFrame {
                 int posY = (e.getY() - 30) / 60;
                 if (hasHit(posX, posY)) {
                     xLabels.addLabel();
-                    xLabels.spawnLabel(xLabels.length() - 1, posX*60 +5, posY*60 + 5,50,50,isShip(posX,posY));
-                    layeredPane.add(xLabels.elementGetter(xLabels.length() - 1), Integer.valueOf(2));
-                    layeredPane.revalidate();
+                    xLabels.spawnX(xLabels.length() - 1, posX, posY);
                     strikeGrid(posX, posY);//promenia grida na playera
                     checkForSunkShips();//proverka dali celia korab e ucelen i go potopyava ako e, ako ne e go otpotopyava
                     strikes--;
