@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
@@ -45,10 +46,15 @@ public class CharacterCreator extends javax.swing.JFrame {
     private int shipStyle = 0;
     private static int currentPhase = -1;
 
-    public CharacterCreator() {
+    //random name
+    private String nameList[] = {"Schmetterling","Kazvash_se_Ivan", "Telefonka_Arnuodova",
+        "Igor", "Harald_Berendt", "Ben_Dover", "Isaac_de_Snutz", "Schmichael_Carrion", "Barak_Ikea", "Wilhelm"};
 
-        this.setBounds(330, 40, 914, 757);
+    public CharacterCreator() {
+        Random rand = new Random();
+        this.setBounds(0, 0, 914, 757);
         this.setResizable(false);
+        setLocationRelativeTo(null);
         layeredPane.setBounds(0, 0, 900, 720);
 
         //inicializirane
@@ -108,6 +114,7 @@ public class CharacterCreator extends javax.swing.JFrame {
         // <editor-fold defaultstate="collapsed" desc="nameField"> 
         lblName.setBounds(186, 202, 259, 29);
         lblName.setOpaque(false);
+        lblName.setText(nameList[rand.nextInt(10)]);
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="rules">
@@ -215,10 +222,6 @@ public class CharacterCreator extends javax.swing.JFrame {
         CharacterCreator.p2 = p2;
     }
 
-    public static void main(String args[]) {
-        new CharacterCreator().setVisible(true);
-    }
-
     private void admiralCycler(int cycle) {
         newAdmiralFileName = commonAdmiralFileName.substring(0, 18) + Integer.toString(cycle) + commonAdmiralFileName.substring(18);
         admiral.setIcon(new ImageIcon(newAdmiralFileName));
@@ -234,7 +237,7 @@ public class CharacterCreator extends javax.swing.JFrame {
     }
 
     private void validateNameLength(String userName) {
-        Pattern p = Pattern.compile(".{1,10}");
+        Pattern p = Pattern.compile(".{1,20}");
         Matcher m = p.matcher(userName);
         if (!m.matches()) {
             throw new InputMismatchException("InvalidLength");
@@ -244,6 +247,12 @@ public class CharacterCreator extends javax.swing.JFrame {
     private void validateShipStyle(int shipStyle) {
         if (shipStyle == 0) {
             throw new InputMismatchException("InvalidStyle");
+        }
+    }
+
+    private void validateSameName(String userName){
+        if(userName.equals(p1.getName())){
+            throw new InputMismatchException("SameName");
         }
     }
 
@@ -284,6 +293,7 @@ public class CharacterCreator extends javax.swing.JFrame {
             validateNameChars(lblName.getText());
             validateNameLength(lblName.getText());
             validateShipStyle(shipStyle);
+            validateSameName(lblName.getText());
             p2.setName(lblName.getText());
             p2.setShipStyle(shipStyle);
             p2.setCurrentAdmiralFileName(newAdmiralFileName);
@@ -305,6 +315,11 @@ public class CharacterCreator extends javax.swing.JFrame {
                 case "InvalidStyle":
                     JOptionPane.showMessageDialog(null,
                             "Choose a ship style.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case "SameName":
+                    JOptionPane.showMessageDialog(null,
+                            "Your name should not be the same as the name of the other player.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     break;
             }
