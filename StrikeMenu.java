@@ -48,6 +48,7 @@ public class StrikeMenu extends javax.swing.JFrame {
         this.setBounds(0, 0, 1130, 757);
         this.setResizable(false);
         setLocationRelativeTo(null);
+        this.setTitle("Battleship");
         layeredPane.setBounds(0, 0, 1130, 720);
 
         //inicializirane
