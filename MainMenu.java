@@ -8,7 +8,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
-public class ActualMainMenu extends javax.swing.JFrame {
+public class MainMenu extends javax.swing.JFrame {
 
     private JLabel background = new JLabel();
     private JLabel title = new JLabel();
@@ -19,41 +19,42 @@ public class ActualMainMenu extends javax.swing.JFrame {
     private JLabel quit = new JLabel();
     private JLabel buttonBackdrop = new JLabel();
     private JLayeredPane layeredPane = new JLayeredPane();
-    
-    public ActualMainMenu() {
-        this.setBounds(0, 0, 914, 759);
-        setLocationRelativeTo(null); 
+
+    public MainMenu() {
+        this.setBounds(0, 0, 914, 757);
+        this.setResizable(false);
+        setLocationRelativeTo(null);
         layeredPane.setBounds(0, 0, 900, 720);
-        
+
         // <editor-fold defaultstate="collapsed" desc="background">
         background.setIcon(new ImageIcon("src/images/Background.png"));
-        background.setBounds(0,0, layeredPane.getWidth(), layeredPane.getHeight());
-        background.setOpaque(false);  
+        background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
+        background.setOpaque(false);
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="title">
         title.setIcon(new ImageIcon("src/images/Title.png"));
-        title.setBounds(47,50, 806, 120);
-        title.setOpaque(false); 
+        title.setBounds(47, 50, 806, 120);
+        title.setOpaque(false);
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="start">
         start.setIcon(new ImageIcon("src/images/start.png"));
-        start.setBounds(350,330, 200, 53);
+        start.setBounds(350, 330, 200, 53);
         start.setOpaque(false);
         start.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 disposer();
-                new CharacterCreator().setVisible(true); 
-                
+                new CharacterCreator().setVisible(true);
+
             }
         });
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="rules">
         rules.setIcon(new ImageIcon("src/images/rules.png"));
-        rules.setBounds(379,403, 142, 50);
+        rules.setBounds(379, 403, 142, 50);
         rules.setOpaque(false);
         rules.addMouseListener(new MouseAdapter() {
             @Override
@@ -62,22 +63,22 @@ public class ActualMainMenu extends javax.swing.JFrame {
             }
         });
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="credits">
         credits.setIcon(new ImageIcon("src/images/credits.png"));
-        credits.setBounds(360,473, 180, 50);
+        credits.setBounds(360, 473, 180, 50);
         credits.setOpaque(false);
         credits.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                 JOptionPane.showMessageDialog(null, "credits", "Credits", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "credits", "Credits", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="options">
         options.setIcon(new ImageIcon("src/images/options.png"));
-        options.setBounds(362,543,  175, 53);
+        options.setBounds(362, 543, 175, 53);
         options.setOpaque(false);
         options.addMouseListener(new MouseAdapter() {
             @Override
@@ -86,10 +87,10 @@ public class ActualMainMenu extends javax.swing.JFrame {
             }
         });
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="quit">
         quit.setIcon(new ImageIcon("src/images/quit.png"));
-        quit.setBounds(407,614, 85, 44);
+        quit.setBounds(407, 614, 85, 44);
         quit.setOpaque(false);
         quit.addMouseListener(new MouseAdapter() {
             @Override
@@ -98,14 +99,13 @@ public class ActualMainMenu extends javax.swing.JFrame {
             }
         });
         // </editor-fold>
-        
+
         // <editor-fold defaultstate="collapsed" desc="buttonBackdrop">
         buttonBackdrop.setIcon(new ImageIcon("src/images/ButtonBackdropFinished.png"));
-        buttonBackdrop.setBounds(310,300, 280, 384);
-        buttonBackdrop.setOpaque(false);  
+        buttonBackdrop.setBounds(310, 300, 280, 384);
+        buttonBackdrop.setOpaque(false);
         // </editor-fold>
-        
-        layeredPane.add(background, Integer.valueOf(0));
+
         layeredPane.add(title, Integer.valueOf(2));
         layeredPane.add(start, Integer.valueOf(2));
         layeredPane.add(rules, Integer.valueOf(2));
@@ -113,7 +113,7 @@ public class ActualMainMenu extends javax.swing.JFrame {
         layeredPane.add(options, Integer.valueOf(2));
         layeredPane.add(quit, Integer.valueOf(2));
         layeredPane.add(buttonBackdrop, Integer.valueOf(2));
-        
+        layeredPane.add(background, Integer.valueOf(0));
         this.add(layeredPane);
         layeredPane.revalidate();
         this.revalidate();
@@ -121,12 +121,10 @@ public class ActualMainMenu extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-        new ActualMainMenu().setVisible(true);
+        new MainMenu().setVisible(true);
     }
-    
-    public void disposer()
-    {
+
+    public void disposer() {
         this.dispose();
     }
-    
 }
