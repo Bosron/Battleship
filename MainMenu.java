@@ -24,6 +24,7 @@ public class MainMenu extends javax.swing.JFrame {
         this.setBounds(0, 0, 914, 757);
         this.setResizable(false);
         setLocationRelativeTo(null);
+        this.setTitle("Battleship");
         layeredPane.setBounds(0, 0, 900, 720);
 
         // <editor-fold defaultstate="collapsed" desc="background">
