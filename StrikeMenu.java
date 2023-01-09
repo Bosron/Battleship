@@ -45,16 +45,16 @@ public class StrikeMenu extends javax.swing.JFrame {
         strikes = player.getBiggestShip();
         strikeCounter.setText(strikes + "");
         
-        this.setBounds(0, 0, 1130, 757);
+        this.setBounds(0, 0, 1100, 757);
         this.setResizable(false);
         setLocationRelativeTo(null);
         this.setTitle("Battleship");
-        layeredPane.setBounds(0, 0, 1130, 720);
+        layeredPane.setBounds(0, 0, 1100, 720);
 
         //inicializirane
 
         // <editor-fold defaultstate="collapsed" desc="nextTurn">
-        nextTurn.setBounds(750, 600, 100, 50);
+        nextTurn.setBounds(742, 600, 100, 50);
         nextTurn.setOpaque(false);
         nextTurn.addMouseListener(new MouseAdapter() {
             @Override
