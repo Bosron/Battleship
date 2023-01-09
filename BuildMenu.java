@@ -60,8 +60,9 @@ public class BuildMenu extends javax.swing.JFrame {
     public BuildMenu(Player player) {
         this.player = player;
 
-        this.setBounds(100, 10, 1294, 757);
+        this.setBounds(0, 0, 1294, 757);
         this.setResizable(false);
+        setLocationRelativeTo(null);
         layeredPane.setBounds(0, 0, 1280, 720);
 
         //inicializirane
