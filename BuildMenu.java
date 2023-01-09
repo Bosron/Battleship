@@ -63,6 +63,7 @@ public class BuildMenu extends javax.swing.JFrame {
         this.setBounds(0, 0, 1294, 757);
         this.setResizable(false);
         setLocationRelativeTo(null);
+        this.setTitle("Battleship");
         layeredPane.setBounds(0, 0, 1280, 720);
 
         //inicializirane
