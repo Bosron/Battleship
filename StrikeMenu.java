@@ -45,8 +45,9 @@ public class StrikeMenu extends javax.swing.JFrame {
         strikes = player.getBiggestShip();
         strikeCounter.setText(strikes + "");
         
-        this.setBounds(100, 10, 1130, 757);
+        this.setBounds(0, 0, 1130, 757);
         this.setResizable(false);
+        setLocationRelativeTo(null);
         layeredPane.setBounds(0, 0, 1130, 720);
 
         //inicializirane
