@@ -54,7 +54,7 @@ public class StrikeMenu extends javax.swing.JFrame {
         //inicializirane
 
         // <editor-fold defaultstate="collapsed" desc="nextTurn">
-        nextTurn.setBounds(742, 600, 100, 50);
+        nextTurn.setBounds(750, 600, 100, 50);
         nextTurn.setOpaque(false);
         nextTurn.addMouseListener(new MouseAdapter() {
             @Override
@@ -74,7 +74,7 @@ public class StrikeMenu extends javax.swing.JFrame {
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="admiral">
-        admiral.setBounds(750, 75, 325, 412);
+        admiral.setBounds(742, 75, 325, 412);
         admiral.setIcon(new ImageIcon(player.getCurrentAdmiralFileName()));
         admiral.setOpaque(false);
         // </editor-fold>
