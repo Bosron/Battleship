@@ -136,11 +136,13 @@ public class EndScreen extends javax.swing.JFrame {
         p2.setName(winner.getName());
         p1.setShipStyle(loser.getShipStyle());
         p2.setShipStyle(winner.getShipStyle());
-        MainMenu.setP1(p1);
-        MainMenu.setP2(p2);
-        MainMenu.setCurrentPhase(1);
+        p1.setCurrentAdmiralFileName(loser.getCurrentAdmiralFileName());
+        p2.setCurrentAdmiralFileName(winner.getCurrentAdmiralFileName());
+        CharacterCreator.setP1(p1);
+        CharacterCreator.setP2(p2);
+        CharacterCreator.setCurrentPhase(1);
         this.dispose();
-        new MainMenu().run();
+        new CharacterCreator().run();
     }
 
     private float findAccuracy(Player player) {
