@@ -1,7 +1,5 @@
 package battleship;
 
- 
-
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,12 +18,9 @@ import javax.swing.JLayeredPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
- 
+//authors: borisks & damyanlh
 
-//@authors: borisks & damyanlh
 public class EndScreen extends javax.swing.JFrame {
-
- 
 
     //scene
     private JLayeredPane layeredPane = new JLayeredPane();
@@ -34,13 +29,9 @@ public class EndScreen extends javax.swing.JFrame {
     private ImageIcon backDropIcon = new ImageIcon("src/images/backdrop.png");
     private ImageIcon backgroundIcon = new ImageIcon("src/images/EndScreen.png");
 
- 
-
     //players
     private Player winner = new Player();
     private Player loser = new Player();
-
- 
 
     //labels
     private JLabel winnerName = new JLabel();
@@ -50,24 +41,17 @@ public class EndScreen extends javax.swing.JFrame {
     private JLabel rematch = new JLabel();
     private JTextArea scoreboard = new JTextArea();
 
- 
-
     private String scoreboardText = "";
-
- 
 
     public EndScreen(Player winner, Player loser) {
         this.winner = winner;
         this.loser = loser;
 
- 
-
         this.setBounds(100, 10, 900, 757);
         layeredPane.setBounds(0, 0, 900, 720);
 
- 
-
         //inicializirane
+
         // <editor-fold defaultstate="collapsed" desc="winnerName">
         winnerName.setBounds(250, 100, 500, 50);
         winnerName.setOpaque(false);
@@ -75,25 +59,19 @@ public class EndScreen extends javax.swing.JFrame {
         winnerName.setText(winner.getName() + " won!");
         // </editor-fold>
 
- 
-
         // <editor-fold defaultstate="collapsed" desc="stats1">
         stats1.setBounds(300, 250, 400, 50);
         stats1.setOpaque(false);
         stats1.setFont(new Font("Fira Sans", Font.BOLD, 20));
-        stats1.setText(winner.getName() + "'s accuracy: " + findAccuracy(loser));
+        stats1.setText(winner.getName() + "'s accuracy: " + findAccuracy(loser) + "%");
         // </editor-fold>
-
- 
 
         // <editor-fold defaultstate="collapsed" desc="stats2">
         stats2.setBounds(300, 350, 400, 50);
         stats2.setOpaque(false);
         stats2.setFont(new Font("Fira Sans", Font.BOLD, 20));
-        stats2.setText(loser.getName() + "'s accuracy: " + findAccuracy(winner));
+        stats2.setText(loser.getName() + "'s accuracy: " + findAccuracy(winner) + "%");
         // </editor-fold>
-
- 
 
         // <editor-fold defaultstate="collapsed" desc="credits">
         credits.setBounds(300, 500, 100, 50);
@@ -101,8 +79,6 @@ public class EndScreen extends javax.swing.JFrame {
         credits.setFont(new Font("Fira Sans", Font.BOLD, 20));
         credits.setText("credits");
         // </editor-fold>
-
- 
 
         // <editor-fold defaultstate="collapsed" desc="rematch">
         rematch.setBounds(300, 600, 100, 50);
@@ -116,21 +92,15 @@ public class EndScreen extends javax.swing.JFrame {
         });
         // </editor-fold>
 
- 
-
         // <editor-fold defaultstate="collapsed" desc="background">
         background.setIcon(backgroundIcon);
         background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         // </editor-fold>
 
- 
-
         // <editor-fold defaultstate="collapsed" desc="backdrop">
         background.setIcon(backDropIcon);
         background.setBounds(0, 0, 1980, 1080);
         // </editor-fold>
-
- 
 
         // <editor-fold defaultstate="collapsed" desc="scoreboard">
         scoreboard.setBounds(100, 100, 300, 300);
@@ -145,10 +115,9 @@ public class EndScreen extends javax.swing.JFrame {
             Logger.getLogger(EndScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         // </editor-fold>
+
         this.setLayeredPane(layeredPane);
         this.revalidate();
-
- 
 
         layeredPane.add(scoreboard, Integer.valueOf(2));
         layeredPane.add(winnerName, Integer.valueOf(2));
@@ -162,8 +131,6 @@ public class EndScreen extends javax.swing.JFrame {
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
- 
-
     private void startRematch() {
         Player p1 = new Player();
         Player p2 = new Player();
@@ -171,14 +138,14 @@ public class EndScreen extends javax.swing.JFrame {
         p2.setName(winner.getName());
         p1.setShipStyle(loser.getShipStyle());
         p2.setShipStyle(winner.getShipStyle());
-        MainMenu.setP1(p1);
-        MainMenu.setP2(p2);
-        MainMenu.setCurrentPhase(1);
+        p1.setCurrentAdmiralFileName(winner.getCurrentAdmiralFileName());
+        p2.setCurrentAdmiralFileName(loser.getCurrentAdmiralFileName());
+        CharacterCreator.setP1(p1);
+        CharacterCreator.setP2(p2);
+        CharacterCreator.setCurrentPhase(1);
         this.dispose();
-        new MainMenu().run();
+        new CharacterCreator().run();
     }
-
- 
 
     private float findAccuracy(Player player) {
         float redNum = 0;
@@ -192,80 +159,58 @@ public class EndScreen extends javax.swing.JFrame {
                 }
             }
         }
-        return redNum / (whiteNum + redNum);
+        return (redNum / (whiteNum + redNum))*100;
     }
-
- 
 
     private void scoreboardDisplayer() throws FileNotFoundException {
         //scoreboard
         //prihvashtane na faila za scorevoard-a
         try {
-            
             File file = new File("src/images/scoreboard.txt");
             boolean isCreated = file.createNewFile();
             //pisane na poslednia pobeditel v scoreboarda
             FileWriter fileWriter = new FileWriter(file.getPath(), true);
             BufferedWriter out = new BufferedWriter(fileWriter);
-            if (isCreated) { 
+            if (isCreated) {
                 System.out.println("New scoreboard was created");
-                
             } else {
-                out.write(winner.getName() + ":" + "5 rounds"+"\n");
                 System.out.println("Scoreboard was found");
             }
+            out.write(winner.getName() + ":" + StrikeMenu.getRounds() + " rounds" + "\n");
             out.close();
-            
+
             //vzimane na poslednite 10 pobeditelia ot scoreboard-a i slagane v saotvetnia label
             BufferedReader reader = new BufferedReader(new FileReader(file.getPath()));
             int lines = 0;
-            reader.mark(1000000);
+            reader.mark(10000);
             while (reader.readLine() != null) {
                 lines++;
-            } 
+            }
             System.out.println(lines);
             reader.reset();
-            //BufferedReader reader2 = new BufferedReader(new FileReader(file.getPath()));
             for (int i = 0; i < lines; i++) {
-                
-                if(i > lines-6)
-                {
+                if (i > lines - 6) {
                     System.out.println(i);
                     scoreboardText += reader.readLine();
-                    scoreboardText +="\n";
+                    scoreboardText += "\n";
                     System.out.println(scoreboardText);
-                }
-                else
-                {
+                } else {
                     reader.readLine();
                 }
-                
             }
             reader.close();
-            //reader.close();
-            
         } catch (IOException e) {
             System.out.println("Exception Occured:");
             e.printStackTrace();
         }
-
- 
-
         scoreboard.setText(scoreboardText);
         layeredPane.revalidate();
     }
-
- 
 
     public static void main(String[] args) {
         Player p1 = new Player(), p2 = new Player();
         p1.setName("FirstPlayer");
         p2.setName("SecondPlayer");
-
- 
-
         new EndScreen(p1, p2).setVisible(true);
     }
 }
-
-
