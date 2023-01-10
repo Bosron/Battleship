@@ -46,10 +46,6 @@ public class CharacterCreator extends javax.swing.JFrame {
     private int shipStyle = 0;
     private static int currentPhase = -1;
 
-    //random name
-    private String nameList[] = {"Schmetterling","Kazvash_se_Ivan", "Telefonka_Arnuodova",
-        "Igor", "Harald_Berendt", "Ben_Dover", "Isaac_de_Snutz", "Schmichael_Carrion", "Barak_Ikea", "Wilhelm"};
-
     public CharacterCreator() {
         Random rand = new Random();
         this.setBounds(0, 0, 914, 757);
@@ -115,7 +111,6 @@ public class CharacterCreator extends javax.swing.JFrame {
         // <editor-fold defaultstate="collapsed" desc="nameField"> 
         lblName.setBounds(186, 202, 259, 29);
         lblName.setOpaque(false);
-        lblName.setText(nameList[rand.nextInt(10)]);
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="rules">
@@ -152,6 +147,10 @@ public class CharacterCreator extends javax.swing.JFrame {
         admiral.setIcon(new ImageIcon("src/images/Admiral1.png"));
         admiral.setBounds(519, 164, 325, 412);
         admiral.setOpaque(false);
+        int randomNumber = rand.nextInt(7) + 1;
+        this.cycle = randomNumber;
+        System.out.println(cycle);
+        admiralCycler(randomNumber);
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="leftArrow">
