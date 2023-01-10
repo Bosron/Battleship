@@ -21,18 +21,18 @@ import javax.swing.WindowConstants;
 public class CharacterCreator extends javax.swing.JFrame {
 
     //scene
-    private JLabel PlayerNumber = new JLabel();
-    private JLabel name = new JLabel();
+    private JLabel txtPlayerNumber = new JLabel();
+    private JLabel txtName = new JLabel();
     private JLabel shipStyleLabel = new JLabel();
     private JLabel displayShips = new JLabel();
-    private JLabel done = new JLabel();
-    private JLabel rules = new JLabel();
+    private JLabel doneButton = new JLabel();
+    private JLabel rulesButton = new JLabel();
     private JLabel background = new JLabel();
     private JLabel admiral = new JLabel();
-    private JLabel leftArrow = new JLabel();
-    private JLabel rightArrow = new JLabel();
+    private JLabel leftArrowButton = new JLabel();
+    private JLabel rightArrowButton = new JLabel();
     private JLayeredPane layeredPane = new JLayeredPane();
-    private JTextField lblName = new JTextField();
+    private JTextField txtfldName = new JTextField();
     private JComboBox<String> cmbShipStyle = new JComboBox();
 
     //admiral cycling
@@ -62,15 +62,15 @@ public class CharacterCreator extends javax.swing.JFrame {
         background.setOpaque(false);
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="PlayerNumber">
+        // <editor-fold defaultstate="collapsed" desc="txtPlayerNumber">
         if (currentPhase == - 1) {
-            PlayerNumber.setIcon(new ImageIcon("src/images/Player1.png"));
+            txtPlayerNumber.setIcon(new ImageIcon("src/images/Player1.png"));
         } else {
-            PlayerNumber.setIcon(new ImageIcon("src/images/Player2.png"));
+            txtPlayerNumber.setIcon(new ImageIcon("src/images/Player2.png"));
         }
 
-        PlayerNumber.setBounds(225, 20, 450, 132);
-        PlayerNumber.setOpaque(false);
+        txtPlayerNumber.setBounds(225, 20, 450, 132);
+        txtPlayerNumber.setOpaque(false);
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="ShipStyle:">
@@ -103,21 +103,21 @@ public class CharacterCreator extends javax.swing.JFrame {
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="Name:">
-        name.setIcon(new ImageIcon("src/images/Name.png"));
-        name.setBounds(65, 200, 111, 29);
-        name.setOpaque(false);
+        txtName.setIcon(new ImageIcon("src/images/Name.png"));
+        txtName.setBounds(65, 200, 111, 29);
+        txtName.setOpaque(false);
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="nameField"> 
-        lblName.setBounds(186, 202, 259, 29);
-        lblName.setOpaque(false);
+        txtfldName.setBounds(186, 202, 259, 29);
+        txtfldName.setOpaque(false);
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="rules">
-        rules.setIcon(new ImageIcon("src/images/RulesButton.png"));
-        rules.setBounds(25, 620, 188, 83);
-        rules.setOpaque(false);
-        rules.addMouseListener(new MouseAdapter() {
+        // <editor-fold defaultstate="collapsed" desc="rulesButton">
+        rulesButton.setIcon(new ImageIcon("src/images/RulesButton.png"));
+        rulesButton.setBounds(25, 620, 188, 83);
+        rulesButton.setOpaque(false);
+        rulesButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 JOptionPane.showMessageDialog(null, "neshto si pravila", "Playing rules", JOptionPane.INFORMATION_MESSAGE);
@@ -125,11 +125,11 @@ public class CharacterCreator extends javax.swing.JFrame {
         });
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="done">
-        done.setIcon(new ImageIcon("src/images/DoneButton.png"));
-        done.setBounds(704, 620, 171, 83);
-        done.setOpaque(false);
-        done.addMouseListener(new MouseAdapter() {
+        // <editor-fold defaultstate="collapsed" desc="doneButton">
+        doneButton.setIcon(new ImageIcon("src/images/DoneButton.png"));
+        doneButton.setBounds(704, 620, 171, 83);
+        doneButton.setOpaque(false);
+        doneButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 run();
@@ -149,15 +149,14 @@ public class CharacterCreator extends javax.swing.JFrame {
         admiral.setOpaque(false);
         int randomNumber = rand.nextInt(7) + 1;
         this.cycle = randomNumber;
-        System.out.println(cycle);
         admiralCycler(randomNumber);
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="leftArrow">
-        leftArrow.setIcon(new ImageIcon("src/images/LeftArrow.png"));
-        leftArrow.setBounds(550, 475, 40, 75);
-        leftArrow.setOpaque(false);
-        leftArrow.addMouseListener(new MouseAdapter() {
+        // <editor-fold defaultstate="collapsed" desc="leftArrowButton">
+        leftArrowButton.setIcon(new ImageIcon("src/images/LeftArrow.png"));
+        leftArrowButton.setBounds(550, 475, 40, 75);
+        leftArrowButton.setOpaque(false);
+        leftArrowButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (cycle == 1) {
@@ -170,11 +169,11 @@ public class CharacterCreator extends javax.swing.JFrame {
         });
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="rightArrow">
-        rightArrow.setIcon(new ImageIcon("src/images/RightArrow.png"));
-        rightArrow.setBounds(773, 475, 40, 75);
-        rightArrow.setOpaque(false);
-        rightArrow.addMouseListener(new MouseAdapter() {
+        // <editor-fold defaultstate="collapsed" desc="rightArrowButton">
+        rightArrowButton.setIcon(new ImageIcon("src/images/RightArrow.png"));
+        rightArrowButton.setBounds(773, 475, 40, 75);
+        rightArrowButton.setOpaque(false);
+        rightArrowButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
 
@@ -190,17 +189,17 @@ public class CharacterCreator extends javax.swing.JFrame {
 
         this.add(layeredPane);
         layeredPane.add(background, Integer.valueOf(0));
-        layeredPane.add(lblName, Integer.valueOf(2));
+        layeredPane.add(txtfldName, Integer.valueOf(2));
         layeredPane.add(cmbShipStyle, Integer.valueOf(2));
-        layeredPane.add(PlayerNumber, Integer.valueOf(2));
-        layeredPane.add(name, Integer.valueOf(2));
+        layeredPane.add(txtPlayerNumber, Integer.valueOf(2));
+        layeredPane.add(txtName, Integer.valueOf(2));
         layeredPane.add(shipStyleLabel, Integer.valueOf(2));
         layeredPane.add(displayShips, Integer.valueOf(2));
-        layeredPane.add(done, Integer.valueOf(2));
-        layeredPane.add(rules, Integer.valueOf(2));
+        layeredPane.add(doneButton, Integer.valueOf(2));
+        layeredPane.add(rulesButton, Integer.valueOf(2));
         layeredPane.add(admiral, Integer.valueOf(2));
-        layeredPane.add(leftArrow, Integer.valueOf(3));
-        layeredPane.add(rightArrow, Integer.valueOf(3));
+        layeredPane.add(leftArrowButton, Integer.valueOf(3));
+        layeredPane.add(rightArrowButton, Integer.valueOf(3));
         layeredPane.revalidate();
         this.revalidate();
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -237,7 +236,7 @@ public class CharacterCreator extends javax.swing.JFrame {
     }
 
     private void validateNameLength(String userName) {
-        Pattern p = Pattern.compile(".{1,20}");
+        Pattern p = Pattern.compile(".{1,15}");
         Matcher m = p.matcher(userName);
         if (!m.matches()) {
             throw new InputMismatchException("InvalidLength");
@@ -258,10 +257,10 @@ public class CharacterCreator extends javax.swing.JFrame {
 
     private void setPlayer1Data() {
         try {
-            validateNameChars(lblName.getText());
-            validateNameLength(lblName.getText());
+            validateNameChars(txtfldName.getText());
+            validateNameLength(txtfldName.getText());
             validateShipStyle(shipStyle);
-            p1.setName(lblName.getText());
+            p1.setName(txtfldName.getText());
             p1.setShipStyle(shipStyle);
             p1.setCurrentAdmiralFileName(newAdmiralFileName);
             this.dispose();
@@ -276,7 +275,7 @@ public class CharacterCreator extends javax.swing.JFrame {
                     break;
                 case "InvalidLength":
                     JOptionPane.showMessageDialog(null,
-                            "Your name must be between 1 and 10 characters long.",
+                            "Your name must be between 1 and 15 characters long.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 case "InvalidStyle":
@@ -290,11 +289,11 @@ public class CharacterCreator extends javax.swing.JFrame {
 
     private void setPlayer2Data() {
         try {
-            validateNameChars(lblName.getText());
-            validateNameLength(lblName.getText());
+            validateNameChars(txtfldName.getText());
+            validateNameLength(txtfldName.getText());
             validateShipStyle(shipStyle);
-            validateSameName(lblName.getText());
-            p2.setName(lblName.getText());
+            validateSameName(txtfldName.getText());
+            p2.setName(txtfldName.getText());
             p2.setShipStyle(shipStyle);
             p2.setCurrentAdmiralFileName(newAdmiralFileName);
             this.dispose();
@@ -309,7 +308,7 @@ public class CharacterCreator extends javax.swing.JFrame {
                     break;
                 case "InvalidLength":
                     JOptionPane.showMessageDialog(null,
-                            "Your name is too long, it must be between 1 and 10 including.",
+                            "Your name must be between 1 and 15 characters long.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 case "InvalidStyle":
