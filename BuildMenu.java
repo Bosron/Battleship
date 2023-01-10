@@ -32,15 +32,12 @@ public class BuildMenu extends javax.swing.JFrame {
     //scene
     private JLayeredPane layeredPane = new JLayeredPane();
     private JLabel background = new JLabel();
-    private JLabel name = new JLabel();
-    private ImageIcon backgroundIcon = new ImageIcon("src/images/BuildArea.png");
+    private JLabel txtName = new JLabel();
     private ImageIcon oneTile;
     private ImageIcon twoTile;
     private ImageIcon threeTile;
     private ImageIcon fourTile;
     private ImageIcon fiveTile;
-    private ImageIcon grayButton = new ImageIcon("src/images/grayButton.png");
-    private ImageIcon colorButton = new ImageIcon("src/images/colorButton.png");
 
     //label arrays
     private DynamicLabelArray shipLabels = new DynamicLabelArray(0);
@@ -54,8 +51,8 @@ public class BuildMenu extends javax.swing.JFrame {
     private int length;
 
     //next phase
-    private JLabel nextPhase = new JLabel();
-    private JLabel metalCounter = new JLabel(metal + "");
+    private JLabel nextPhaseButton = new JLabel();
+    private JLabel txtMetalCounter = new JLabel(metal + "");
 
     public BuildMenu(Player player) {
         this.player = player;
@@ -99,11 +96,11 @@ public class BuildMenu extends javax.swing.JFrame {
         staticShipLabels.elementGetter(4).addMouseListener(new MouseAdapterForShipSpawning());
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="nextPhase">
-        nextPhase.setBounds(1000, 10, 100, 50);
-        nextPhase.setOpaque(false);
-        nextPhase.setIcon(grayButton);
-        nextPhase.addMouseListener(new MouseAdapter() {
+        // <editor-fold defaultstate="collapsed" desc="nextPhaseButton">
+        nextPhaseButton.setBounds(1000, 10, 100, 50);
+        nextPhaseButton.setOpaque(false);
+        nextPhaseButton.setIcon(new ImageIcon("src/images/grayButton.png"));
+        nextPhaseButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(!buildPhase){
@@ -113,32 +110,32 @@ public class BuildMenu extends javax.swing.JFrame {
         });
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="metalCounter">
-        metalCounter.setBounds(1150, 10, 50, 50);
-        metalCounter.setOpaque(false);
-        metalCounter.setFont(new Font("Fira Sans", Font.BOLD, 40));
+        // <editor-fold defaultstate="collapsed" desc="txtMetalCounter">
+        txtMetalCounter.setBounds(1150, 10, 50, 50);
+        txtMetalCounter.setOpaque(false);
+        txtMetalCounter.setFont(new Font("Fira Sans", Font.BOLD, 40));
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="background">
-        background.setIcon(backgroundIcon);
+        background.setIcon(new ImageIcon("src/images/BuildArea.png"));
         background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="name">
-        name.setBounds(730, 375, 170, 29);
-        name.setText(player.getName());
-        name.setForeground(Color.WHITE);
-        name.setOpaque(false);
-        name.setFont(new Font("Fira Sans", Font.BOLD, 20));
+        // <editor-fold defaultstate="collapsed" desc="txtName">
+        txtName.setBounds(730, 375, 170, 29);
+        txtName.setText(player.getName());
+        txtName.setForeground(Color.WHITE);
+        txtName.setOpaque(false);
+        txtName.setFont(new Font("Fira Sans", Font.BOLD, 20));
         // </editor-fold>
 
         this.setLayeredPane(layeredPane);
         this.revalidate();
         this.addKeyListener(new MKeyListener());
 
-        layeredPane.add(name, Integer.valueOf(2));
-        layeredPane.add(metalCounter, Integer.valueOf(2));
-        layeredPane.add(nextPhase, Integer.valueOf(2));
+        layeredPane.add(txtName, Integer.valueOf(2));
+        layeredPane.add(txtMetalCounter, Integer.valueOf(2));
+        layeredPane.add(nextPhaseButton, Integer.valueOf(2));
         layeredPane.add(background, Integer.valueOf(1));
         for (int i = 0; i < staticShipLabels.length(); i++) {
             layeredPane.add(staticShipLabels.elementGetter(i), Integer.valueOf(2));
@@ -167,7 +164,6 @@ public class BuildMenu extends javax.swing.JFrame {
     }
 
     private BufferedImage rotate(BufferedImage bimg, Double angle) {
-        //varti potencialnia label koito shte slojim
         int temp = width;
         width = height;
         height = temp;
@@ -256,7 +252,7 @@ public class BuildMenu extends javax.swing.JFrame {
         player.placeShipInGrid(ship);
         if (metal == 0) {
             buildPhase = false;
-            nextPhase.setIcon(colorButton);
+            nextPhaseButton.setIcon(new ImageIcon("src/images/colorButton.png"));
         }
     }
 
@@ -334,9 +330,9 @@ public class BuildMenu extends javax.swing.JFrame {
                     metal += player.getShip(nomer - 1).getShipLength();
                     nomer--;
                     buildPhase = true;
-                    nextPhase.setIcon(grayButton);
+                    nextPhaseButton.setIcon(new ImageIcon("src/images/grayButton.png"));
                 }
-                metalCounter.setText(metal + "");
+                txtMetalCounter.setText(metal + "");
             }
         }
     }
@@ -377,7 +373,7 @@ public class BuildMenu extends javax.swing.JFrame {
                         layeredPane.add(shipLabels.elementGetter(shipLabels.length() - 1), Integer.valueOf(2));
                         layeredPane.revalidate();
                         buildShip(player, ship);
-                        metalCounter.setText(metal + "");
+                        txtMetalCounter.setText(metal + "");
                     }
                 }
             }
