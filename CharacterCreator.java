@@ -236,7 +236,7 @@ public class CharacterCreator extends javax.swing.JFrame {
     }
 
     private void validateNameLength(String userName) {
-        Pattern p = Pattern.compile(".{1,15}");
+        Pattern p = Pattern.compile(".{1,13}");
         Matcher m = p.matcher(userName);
         if (!m.matches()) {
             throw new InputMismatchException("InvalidLength");
@@ -275,7 +275,7 @@ public class CharacterCreator extends javax.swing.JFrame {
                     break;
                 case "InvalidLength":
                     JOptionPane.showMessageDialog(null,
-                            "Your name must be between 1 and 15 characters long.",
+                            "Your name must be between 1 and 13 characters long.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 case "InvalidStyle":
@@ -308,7 +308,7 @@ public class CharacterCreator extends javax.swing.JFrame {
                     break;
                 case "InvalidLength":
                     JOptionPane.showMessageDialog(null,
-                            "Your name must be between 1 and 15 characters long.",
+                            "Your name must be between 1 and 13 characters long.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 case "InvalidStyle":
