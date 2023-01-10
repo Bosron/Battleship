@@ -1,0 +1,12 @@
+Background - 900,720
+RightAccuracyPlate 113 , 58
+LeftAccuracyPlate 113,58
+NamePlate - 163,63
+GAMEOVER - 603,93
+RematchButton - 188,83
+QuitButton - 188,83
+Winner - 123,31
+Loser - 91,27
+LoserFog - 324,412
+Scoreboard - 204,281
+Accuracy - 155, 36
