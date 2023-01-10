@@ -17,12 +17,7 @@ public class StrikeMenu extends javax.swing.JFrame {
     private JLayeredPane layeredPane = new JLayeredPane();
     private JLabel background = new JLabel();
     private JLabel admiral = new JLabel();
-    private JLabel name = new JLabel();
-    private ImageIcon backgroundIcon = new ImageIcon("src/images/StrikeArea.png");
-    private ImageIcon redX = new ImageIcon("src/images/redX.png");
-    private ImageIcon whiteX = new ImageIcon("src/images/whiteX.png");
-    private ImageIcon grayButton = new ImageIcon("src/images/grayButton.png");
-    private ImageIcon colorButton = new ImageIcon("src/images/colorButton.png");
+    private JLabel txtName = new JLabel();
 
     //label array
     private DynamicLabelArray xLabels = new DynamicLabelArray(0);
@@ -35,15 +30,15 @@ public class StrikeMenu extends javax.swing.JFrame {
     private static int rounds = 1;
 
     //next phase
-    private JLabel nextTurn = new JLabel(grayButton);
-    private JLabel strikeCounter = new JLabel();
+    private JLabel nextTurnButton = new JLabel(new ImageIcon("src/images/grayButton.png"));
+    private JLabel txtStrikeCounter = new JLabel();
     private boolean loseCon = false;
 
     public StrikeMenu(Player player, Player opponent) {
         this.player = player;
         this.opponent = opponent;
         strikes = player.getBiggestShip();
-        strikeCounter.setText(strikes + "");
+        txtStrikeCounter.setText(strikes + "");
         
         this.setBounds(0, 0, 1100, 757);
         this.setResizable(false);
@@ -53,10 +48,10 @@ public class StrikeMenu extends javax.swing.JFrame {
 
         //inicializirane
 
-        // <editor-fold defaultstate="collapsed" desc="nextTurn">
-        nextTurn.setBounds(750, 600, 100, 50);
-        nextTurn.setOpaque(false);
-        nextTurn.addMouseListener(new MouseAdapter() {
+        // <editor-fold defaultstate="collapsed" desc="nextTurnButton">
+        nextTurnButton.setBounds(750, 600, 100, 50);
+        nextTurnButton.setOpaque(false);
+        nextTurnButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (!strikePhase) {
@@ -67,10 +62,10 @@ public class StrikeMenu extends javax.swing.JFrame {
         });
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="strikeCounter">
-        strikeCounter.setBounds(800, 10, 50, 50);
-        strikeCounter.setOpaque(false);
-        strikeCounter.setFont(new Font("Fira Sans", Font.BOLD, 40));
+        // <editor-fold defaultstate="collapsed" desc="txtStrikeCounter">
+        txtStrikeCounter.setBounds(800, 10, 50, 50);
+        txtStrikeCounter.setOpaque(false);
+        txtStrikeCounter.setFont(new Font("Fira Sans", Font.BOLD, 40));
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="admiral">
@@ -79,16 +74,16 @@ public class StrikeMenu extends javax.swing.JFrame {
         admiral.setOpaque(false);
         // </editor-fold>
 
-        // <editor-fold defaultstate="collapsed" desc="name">
-        name.setBounds(800, 500, 170, 29);
-        name.setText(player.getName());
-        name.setForeground(Color.WHITE);
-        name.setOpaque(false);
-        name.setFont(new Font("Fira Sans", Font.BOLD, 20));
+        // <editor-fold defaultstate="collapsed" desc="txtName">
+        txtName.setBounds(800, 500, 170, 29);
+        txtName.setText(player.getName());
+        txtName.setForeground(Color.WHITE);
+        txtName.setOpaque(false);
+        txtName.setFont(new Font("Fira Sans", Font.BOLD, 20));
         // </editor-fold>
 
         // <editor-fold defaultstate="collapsed" desc="background">
-        background.setIcon(backgroundIcon);
+        background.setIcon(new ImageIcon("src/images/StrikeArea.png"));
         background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
         // </editor-fold>
 
@@ -96,9 +91,9 @@ public class StrikeMenu extends javax.swing.JFrame {
         this.revalidate();
 
         layeredPane.add(admiral, Integer.valueOf(2));
-        layeredPane.add(name, Integer.valueOf(2));
-        layeredPane.add(nextTurn, Integer.valueOf(2));
-        layeredPane.add(strikeCounter, Integer.valueOf(2));
+        layeredPane.add(txtName, Integer.valueOf(2));
+        layeredPane.add(nextTurnButton, Integer.valueOf(2));
+        layeredPane.add(txtStrikeCounter, Integer.valueOf(2));
         layeredPane.add(background, Integer.valueOf(1));
         for (int i = 0; i < xLabels.length(); i++) {
             layeredPane.add(xLabels.elementGetter(i), Integer.valueOf(2));
@@ -151,11 +146,12 @@ public class StrikeMenu extends javax.swing.JFrame {
 
     private ImageIcon isShip(int x, int y) {
         if (opponent.getGrid(x, y) == 3 || opponent.getGrid(x, y) == 2) {
-            return redX;
+            return new ImageIcon("src/images/redX.png");
         } else if (opponent.getGrid(x, y) == 0 || opponent.getGrid(x, y) == 1) {
-            return whiteX;
-        }
-        return new ImageIcon("src/images/bulba.png");
+            return new ImageIcon("src/images/whiteX.png");
+        } else {
+            return new ImageIcon();
+            }
     }
 
     private void switchScene() {
@@ -219,10 +215,10 @@ public class StrikeMenu extends javax.swing.JFrame {
                     strikeGrid(posX, posY);//promenia grida na playera
                     checkForSunkShips();//proverka dali celia korab e ucelen i go potopyava ako e, ako ne e go otpotopyava
                     strikes--;
-                    strikeCounter.setText(strikes + "");
+                    txtStrikeCounter.setText(strikes + "");
                     if (strikes == 0) {
                         strikePhase = false;
-                        nextTurn.setIcon(colorButton);
+                        nextTurnButton.setIcon(new ImageIcon("src/images/colorButton.png"));
                     }
                     checkForLoseCon();
                     if (loseCon) {
