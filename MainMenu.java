@@ -1,175 +1,133 @@
 package battleship;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 public class MainMenu extends javax.swing.JFrame {
 
-    Player p1 = new Player();
-    Player p2 = new Player();
-    
+    private JLabel background = new JLabel();
+    private JLabel txtTitle = new JLabel();
+    private JLabel startButton = new JLabel();
+    private JLabel rulesButton = new JLabel();
+    private JLabel creditsButton = new JLabel();
+    private JLabel optionsButton = new JLabel();
+    private JLabel quitButton = new JLabel();
+    private JLabel buttonBackdrop = new JLabel();
+    private JLayeredPane layeredPane = new JLayeredPane();
+
     public MainMenu() {
-        initComponents();
+        this.setBounds(0, 0, 914, 757);
+        this.setResizable(false);
+        setLocationRelativeTo(null);
+        this.setTitle("Battleship");
+        layeredPane.setBounds(0, 0, 900, 720);
+
+        // <editor-fold defaultstate="collapsed" desc="background">
+        background.setIcon(new ImageIcon("src/images/Background.png"));
+        background.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
+        background.setOpaque(false);
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="txtTitle">
+        txtTitle.setIcon(new ImageIcon("src/images/Title.png"));
+        txtTitle.setBounds(47, 50, 806, 120);
+        txtTitle.setOpaque(false);
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="startButton">
+        startButton.setIcon(new ImageIcon("src/images/start.png"));
+        startButton.setBounds(350, 330, 200, 53);
+        startButton.setOpaque(false);
+        startButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                disposer();
+                new CharacterCreator().setVisible(true);
+            }
+        });
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="rulesButton">
+        rulesButton.setIcon(new ImageIcon("src/images/rules.png"));
+        rulesButton.setBounds(379, 403, 142, 50);
+        rulesButton.setOpaque(false);
+        rulesButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JOptionPane.showMessageDialog(null, "Правила:\nКому му трябват?\n"
+                        + ":Пише той 42 минути след срока.", "Playing rules",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="creditsButton">
+        creditsButton.setIcon(new ImageIcon("src/images/credits.png"));
+        creditsButton.setBounds(360, 473, 180, 50);
+        creditsButton.setOpaque(false);
+        creditsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JOptionPane.showMessageDialog(null, "Програмисти: Дамян и Борис\n Със съдействието на CodeRanch, StackOverflow и бог",
+                        "Credits", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="optionsButton">
+        optionsButton.setIcon(new ImageIcon("src/images/options.png"));
+        optionsButton.setBounds(362, 543, 175, 53);
+        optionsButton.setOpaque(false);
+        optionsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JOptionPane.showMessageDialog(null, "Under Construction!", "///////////////////", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="quitButton">
+        quitButton.setIcon(new ImageIcon("src/images/quit.png"));
+        quitButton.setBounds(407, 614, 85, 44);
+        quitButton.setOpaque(false);
+        quitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                disposer();
+            }
+        });
+        // </editor-fold>
+
+        // <editor-fold defaultstate="collapsed" desc="buttonBackdrop">
+        buttonBackdrop.setIcon(new ImageIcon("src/images/ButtonBackdropFinished.png"));
+        buttonBackdrop.setBounds(310, 300, 280, 384);
+        buttonBackdrop.setOpaque(false);
+        // </editor-fold>
+
+        layeredPane.add(txtTitle, Integer.valueOf(2));
+        layeredPane.add(startButton, Integer.valueOf(2));
+        layeredPane.add(rulesButton, Integer.valueOf(2));
+        layeredPane.add(creditsButton, Integer.valueOf(2));
+        layeredPane.add(optionsButton, Integer.valueOf(2));
+        layeredPane.add(quitButton, Integer.valueOf(2));
+        layeredPane.add(buttonBackdrop, Integer.valueOf(2));
+        layeredPane.add(background, Integer.valueOf(0));
+        this.add(layeredPane);
+        layeredPane.revalidate();
+        this.revalidate();
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
-
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jPanel1 = new javax.swing.JPanel();
-        txtP2 = new javax.swing.JTextField();
-        txtP1 = new javax.swing.JTextField();
-        lblP1 = new javax.swing.JLabel();
-        lblP2 = new javax.swing.JLabel();
-        btnRules = new javax.swing.JButton();
-        btnPlay = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        txtP2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtP2ActionPerformed(evt);
-            }
-        });
-
-        txtP1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtP1ActionPerformed(evt);
-            }
-        });
-
-        lblP1.setText("Player 1's name");
-
-        lblP2.setText("Player 2's name");
-
-        btnRules.setText("Show playing rules");
-        btnRules.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRulesActionPerformed(evt);
-            }
-        });
-
-        btnPlay.setText("START");
-        btnPlay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPlayActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnRules, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(200, 200, 200)
-                        .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblP1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtP1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblP2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtP2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(218, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtP2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblP2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtP1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblP1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(btnRules, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void txtP2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtP2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtP2ActionPerformed
-
-    private void txtP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtP1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtP1ActionPerformed
-
-    private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
-        if(!(txtP1.getText().equals("")) && !(txtP2.getText().equals(""))){
-            p1.setName(txtP1.getText());
-            p2.setName(txtP2.getText());
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Insert a name");
-        }
-    }//GEN-LAST:event_btnPlayActionPerformed
-
-    private void btnRulesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRulesActionPerformed
-        JOptionPane.showMessageDialog(null, "neshto si pravila", "Playing rules:", JOptionPane.PLAIN_MESSAGE);
-    }//GEN-LAST:event_btnRulesActionPerformed
 
     public static void main(String args[]) {
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainMenu().setVisible(true);
-            }
-        });
+        new MainMenu().setVisible(true);
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnPlay;
-    private javax.swing.JButton btnRules;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblP1;
-    private javax.swing.JLabel lblP2;
-    private javax.swing.JTextField txtP1;
-    private javax.swing.JTextField txtP2;
-    // End of variables declaration//GEN-END:variables
+    public void disposer() {
+        this.dispose();
+    }
 }
